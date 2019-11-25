@@ -16,3 +16,12 @@ services:
     # Priveleged true for local runs needing openconnect, vpn tun creation, etc
     privileged: true
     network_mode: host
+  docs:
+    image: dockerhub-master.cisco.com/cxta-docker/cxta:19.10
+    container_name: cxta_docs
+    depends_on:
+      - cxta
+    ports:
+      - 8081:80
+    command:
+    - docs

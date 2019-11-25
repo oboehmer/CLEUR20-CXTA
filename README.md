@@ -18,6 +18,11 @@ Run `start-routers.sh` to
 docker exec -it cxta_devnet bash
 ```
 
+## CXTA Documentation
+
+Visit <http://127.0.0.1:8081> from your local browser to check the CXTA library documentation.  
+The list of keywords is available through <http://127.0.0.1:8081/libdoc/keyword-index/>.
+
 ## Bring down the environment
 
 Run 
