@@ -69,10 +69,11 @@ function create_testbed() {
         if [ $(uname) == Darwin ] ; then
             # while developing on mac
             address=host.docker.internal
-            identity=$(echo $identity | sed "s#$HOME#/home/devnet#")
         else
             address=127.0.0.1
         fi
+        # in case we develop in a different directory
+        identity=$(echo $identity | sed "s#$HOME#/home/devnet#")
         echo "$r, $address:$port, IdentityFile $identity"
         cat << _EOF >> $TESTBED
   $r:

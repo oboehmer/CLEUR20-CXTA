@@ -1,7 +1,7 @@
 .PHONY: clean
 clean:
-	@rm -rf out/*
-	@rm -rf runs/*
+	@find . -name "out" -type d | xargs rm -rf
+	@find . -name "device_logs" -type d | xargs rm -rf
 	@find . -name "output.xml" | xargs rm -rf
 	@find . -name "log.html" | xargs rm -rf
 	@find . -name "report.html" | xargs rm -rf

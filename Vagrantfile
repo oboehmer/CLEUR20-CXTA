@@ -23,7 +23,9 @@ Vagrant.configure("2") do |config|
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
   config.vm.box_check_update = false
-
+  # Increase boot timeout from its default 300 sec
+  config.vm.boot_timeout = 600
+  # Adjust memory assignment
   config.vm.provider "virtualbox" do |vb|
      vb.memory = "3056"
      vb.customize ["modifyvm", :id, "--vram", "12"]
