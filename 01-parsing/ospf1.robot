@@ -22,8 +22,8 @@ check ospf neighbours on R2
 
 *** Keywords ***
 suite-setup
-    # we use full the pathname relative to the directory containing
-    # the test suite (this robot file) so we can run the tests also from
-    # a different location (like using "robot 01/")
+    # instead of referencing "../testbed.yaml", we use full the pathname relative to
+    # the directory containing the test suite (this robot file). This way we can run
+    # the tests also from a different location (i.e. using "robot 01-parsing/")
     use testbed "${CURDIR}/../testbed.yaml"
     connect to all devices
