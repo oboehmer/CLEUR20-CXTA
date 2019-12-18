@@ -10,7 +10,6 @@ connect to all devices
     set monitor timeout to "20" seconds
     
     configure "int GigaBitEthernet2\nshut" on device "r1"
-    verify interface "GigaBitEthernet2" state is "administratively down"
     Wait Until Keyword Succeeds  10 times  1 second  verify interface "GigaBitEthernet2" state is "administratively down"    
  
     configure "int GigaBitEthernet2\nno shut" on device "r1"
