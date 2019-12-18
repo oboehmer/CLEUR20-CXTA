@@ -1,6 +1,7 @@
 *** Settings ***
 Library   CXTA
 Resource  cxta.robot
+Library   CXTA.robot.platforms.iosxr.interfaces
 
 *** Test Cases ***
 connect to all devices
@@ -9,9 +10,8 @@ connect to all devices
     set monitor timeout to "20" seconds
     
     configure "int GigaBitEthernet2\nshut" on device "r1"
-    monitor command "show interface GigaBitEthernet2" on device "r1" until output contains "is administratively down"
-    output contains "line protocol is down"
-    
+    verify interface "GigaBitEthernet2" state is "administratively down"
+    Wait Until Keyword Succeeds  10 times  1 second  verify interface "GigaBitEthernet2" state is "administratively down"    
+ 
     configure "int GigaBitEthernet2\nno shut" on device "r1"
-    monitor command "show interface GigaBitEthernet2" on device "r1" until output contains "is up"
-    output contains "line protocol is up"
+    Wait Until Keyword Succeeds  10 times  1 second  verify interface "GigaBitEthernet2" state is "up"
