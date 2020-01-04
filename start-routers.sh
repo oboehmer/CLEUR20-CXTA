@@ -110,4 +110,4 @@ echo "starting cxta container"
 export WORKDIR=$(pwd)
 docker-compose up -d
 # run a robot test which connects to the VMs and checks connectivity
-docker exec -it cxta_devnet robot test-vms.robot
+docker exec -it cxta_devnet robot -d /tmp test-vms.robot
