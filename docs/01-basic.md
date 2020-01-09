@@ -5,7 +5,7 @@ This Chapter introduces you to some basic Robotframework fundamentals and generi
 ## Test Execution Environment
 
 The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the [previous chapter](00-setup.md).  
-The directory structure containing the scripts and tests has been mounted into the container (into /home/cisco/cxta), so you can create/edit and examine files on the Linux operating system on the host (in xxxx/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.
+The directory structure containing the scripts and tests has been mounted into the container (into /home/cisco/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.
 
 Open an interactive session on the container using the following command:
 
@@ -32,8 +32,8 @@ Change to the 01-basic directory and examine the 01-test1.robot file contained t
 # cd 01-basic
 # cat 01-test1.robot
 *** Settings ***
-Library   CXTA
-Resource  cxta.robot
+Library       CXTA
+Resource      cxta.robot
 
 *** Variables ***
 # Location of the auto-generated testbed.yaml file which contains device
@@ -42,7 +42,7 @@ Resource  cxta.robot
 # relative to the directory this .robot file is in (${CURDIR}), which allows
 # us also to execute the test case from a different directory (for example from
 # the parent directory using   robot 01-basic/)
-${testbed}     ${CURDIR}/../testbed.yaml
+${testbed}    ${CURDIR}/../testbed.yaml
 
 *** Test Cases ***
 Load testbed and connect to devices
@@ -65,12 +65,13 @@ This file is a robotframework test file, and you notice different sections:
 
 - The **Variables** section allows you define variables which you can use in other sections of the file. Here we only define the ${testbed} variable which contains the location of the testbed.yaml file which contains the access information to the devices we'll be interacting with.
 
-- The final **Test Cases** section contains the actual test cases we are executing when running this file.
+- The final **Test Cases** section contains the actual test cases we are executing when running this file.  
+Robot (by default) executes each of the test cases in the order specified. A test case succeeds if all the steps within a test case succeed.
 
 
 ## Run the Test Case
 
-Let's run it, calling it via `robot 01-test1.robot`:
+Let's run it, executing it via `robot 01-test1.robot` on the container:
 
 ```
 root@14b56b5cc0ac:/home/cisco/cxta/01-basic# robot 01-test1.robot
@@ -94,4 +95,115 @@ root@14b56b5cc0ac:/home/cisco/cxta/01-basic#
 ```
 
 
-..to be continued..
+## Examine Robot Logfiles
+
+The console output from Robotframework is quite terse and doesn't provide much more information than pass/fail for each of the test cases executed.
+
+For more detailed reporting, as well as for troubleshooting in case things go wrong, you need to revert to additional files created by Robot (CXTA creates some more diagnostic files which we are not going to cover here):
+
+- `log.html` is the most important log created and collects each test step including the device output and other diagnostic information 
+- `report.html` contains a high-level report which shows pass/fail of each test case
+- `output.xml` contains essentially the same information as the former two files combined, however in structured XML format for automated post-processing
+
+Please open the log.html created in the directory XXXX/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)
+
+![](01-log1.png)
+
+
+## Test Failures
+
+We suggest you repeat the test, but change the version value the ${output} is checked against in one of the "check version on rX" test cases, i.e.
+
+```
+[...]
+check version on r1
+    ${output}=   execute "show version" on device "r1"
+    Should Contain   ${output}    Cisco IOS XE Software, Version 99999999
+```
+
+re-run the test, and re-examine the log.html created to see how robot highlights the error(s).
+
+
+## Test Suite Setup/Teardown
+
+By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the `-t` (or `--test`) command line argument.  
+Let's now run a test only checking r1's version:
+
+```
+# robot -t "check version on r1" 01-test1.robot
+```
+
+(you can also use wildcards, i.e. `robot -t "*r1" 01-test1.robot` would also work)
+
+You see the test failing:
+
+```
+==============================================================================
+01-Test1
+==============================================================================
+check version on r1                                                   | FAIL |
+AttributeError: 'NoneType' object has no attribute 'devices'
+------------------------------------------------------------------------------
+01-Test1                                                              | FAIL |
+1 critical test, 0 passed, 1 failed
+1 test total, 0 passed, 1 failed
+```
+
+The error message is unfortunately not that obvious, but if you examine the full .robot file, the first test case ("Load testbed and connect to devices") is now skipped, which causes subsequent test cases which rely on the device connections to fail.
+
+This highlights a problem with the chosen approach (which we introduced for educational purposes ;-) ) as test cases are dependent on each other, which is something we should avoid as much as possible.
+
+To support test interdependency, Robotframework (like many other testing frameworks) support **Setup** and **Teardown** functions which can be executed before a test case starts (and after a test case finishes). These setup functions can also be specified at a test suite level, i.e. before the first test starts and after the last test finishes.
+
+We prepared a test suite utilizing this functionality in file 01-test2.robot:
+
+```
+*** Settings ***
+Library       CXTA
+Resource      cxta.robot
+Suite Setup   Load testbed and connect to devices
+
+*** Variables ***
+${testbed}    ${CURDIR}/../testbed.yaml
+
+*** Test Cases ***
+check version on r1
+    ${output}=   execute "show version" on device "r1"
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+
+check version on r2
+    ${output}=   execute "show version" on device "r2"
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+
+*** Keywords ***
+Load testbed and connect to devices
+    use testbed "${testbed}"
+    connect to device "r1"
+    connect to device "r2"
+```
+
+Comparing this to 01-test1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the **Suite Setup**, i.e. before the first test is executed.
+
+With this change, we can now selectively run any test case:
+
+```
+# robot -t "check version on r1" 01-test2.robot
+
+==============================================================================
+01-Test2
+==============================================================================
+check version on r1                                                   | PASS |
+------------------------------------------------------------------------------
+01-Test2                                                              | PASS |
+1 critical test, 1 passed, 0 failed
+1 test total, 1 passed, 0 failed
+[...]
+```
+
+The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the log.html in the browser: 
+
+![](01-log2.png)
+
+## What's next?
+
+Now that you have made yourself familiar with the environment and basic robot commands, let's move on to a [more advanced use case](02-parsing.md) which shows you the power of some of the CXTA and pyATS keywords.

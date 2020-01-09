@@ -1,6 +1,6 @@
 *** Settings ***
-Library   CXTA
-Resource  cxta.robot
+Library       CXTA
+Resource      cxta.robot
 
 *** Variables ***
 # Location of the auto-generated testbed.yaml file which contains device
@@ -9,7 +9,7 @@ Resource  cxta.robot
 # relative to the directory this .robot file is in (${CURDIR}), which allows
 # us also to execute the test case from a different directory (for example from
 # the parent directory using   robot 01-basic/)
-${testbed}     ${CURDIR}/../testbed.yaml
+${testbed}    ${CURDIR}/../testbed.yaml
 
 *** Test Cases ***
 Load testbed and connect to devices
