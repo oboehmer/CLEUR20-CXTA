@@ -1,0 +1,662 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Utilizing Cisco CXTA service framework to validate network elements">
+      
+      
+      
+        <meta name="author" content="Ava Thorn, Oliver Boehmer">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.1">
+    
+    
+      
+        <title>01 Basic Steps - DEVWKS-1407</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#basic-tests" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="DEVWKS-1407" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              DEVWKS-1407
+            </span>
+            <span class="md-header-nav__topic">
+              01 Basic Steps
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/oboehmer/CLEUR20-CXTA/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="DEVWKS-1407" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    DEVWKS-1407
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/oboehmer/CLEUR20-CXTA/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../00-setup/" title="00 Setup" class="md-nav__link">
+      00 Setup
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        01 Basic Steps
+      </label>
+    
+    <a href="./" title="01 Basic Steps" class="md-nav__link md-nav__link--active">
+      01 Basic Steps
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-execution-environment" title="Test Execution Environment" class="md-nav__link">
+    Test Execution Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-test-case" title="Your First Test Case" class="md-nav__link">
+    Your First Test Case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-test-case" title="Run the Test Case" class="md-nav__link">
+    Run the Test Case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examine-robot-logfiles" title="Examine Robot Logfiles" class="md-nav__link">
+    Examine Robot Logfiles
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-failures" title="Test Failures" class="md-nav__link">
+    Test Failures
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-suite-setupteardown" title="Test Suite Setup/Teardown" class="md-nav__link">
+    Test Suite Setup/Teardown
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" title="What's next?" class="md-nav__link">
+    What's next?
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-execution-environment" title="Test Execution Environment" class="md-nav__link">
+    Test Execution Environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-test-case" title="Your First Test Case" class="md-nav__link">
+    Your First Test Case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-test-case" title="Run the Test Case" class="md-nav__link">
+    Run the Test Case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examine-robot-logfiles" title="Examine Robot Logfiles" class="md-nav__link">
+    Examine Robot Logfiles
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-failures" title="Test Failures" class="md-nav__link">
+    Test Failures
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-suite-setupteardown" title="Test Suite Setup/Teardown" class="md-nav__link">
+    Test Suite Setup/Teardown
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" title="What's next?" class="md-nav__link">
+    What's next?
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/oboehmer/CLEUR20-CXTA/edit/master/docs/01-basic.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="basic-tests">Basic Tests</h1>
+<p>This Chapter introduces you to some basic Robotframework fundamentals and generic device interaction keywords.</p>
+<h2 id="test-execution-environment">Test Execution Environment</h2>
+<p>The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the <a href="../00-setup/">previous chapter</a>.<br />
+The directory structure containing the scripts and tests has been mounted into the container (into /home/cisco/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.</p>
+<p>Open an interactive session on the container using the following command:</p>
+<pre><code>docker exec -it cxta_devnet bash
+</code></pre>
+
+<p>You will end up in the <em>/home/cisco/cxta</em> directory, and you can see all the files from the directory you started the environment from:</p>
+<pre><code>root@14b56b5cc0ac:/home/cisco/cxta# ls
+01-basic    Makefile   Vagrantfile         docs        site              test-vms.robot
+02-parsing  README.md  docker-compose.yml  mkdocs.yml  start-routers.sh  testbed.yaml
+root@14b56b5cc0ac:/home/cisco/cxta#
+</code></pre>
+
+<p>You notice a directory <code>01-basic</code>, which contains the first test script we want to examine and execute:</p>
+<h2 id="your-first-test-case">Your First Test Case</h2>
+<p>Change to the 01-basic directory and examine the 01-test1.robot file contained therein:</p>
+<pre><code># cd 01-basic
+# cat 01-test1.robot
+*** Settings ***
+Library       CXTA
+Resource      cxta.robot
+
+*** Variables ***
+# Location of the auto-generated testbed.yaml file which contains device
+# credentials. Rather than just using &quot;../testbed.yaml&quot;, which assumes
+# the execution directory is the current directory, we set it
+# relative to the directory this .robot file is in (${CURDIR}), which allows
+# us also to execute the test case from a different directory (for example from
+# the parent directory using   robot 01-basic/)
+${testbed}    ${CURDIR}/../testbed.yaml
+
+*** Test Cases ***
+Load testbed and connect to devices
+    use testbed &quot;${testbed}&quot;
+    connect to device &quot;r1&quot;
+    connect to device &quot;r2&quot;
+
+check version on r1
+    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+
+check version on r2
+    ${output}=   execute &quot;show version&quot; on device &quot;r2&quot;
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+</code></pre>
+
+<p>This file is a robotframework test file, and you notice different sections:</p>
+<ul>
+<li>
+<p>the <strong>Settings</strong> section contains the libraries we want to load. For this lab, we are using the <em>CXTA</em> library and a set of libraries which are defined in the resource file <em>cxta.robot</em>. This file is bundled with the cxta libraries on the container, you can examine it via <code>more /venv/lib/python3.6/site-packages/CXTA/robot/cxta.robot</code> if you're interested.</p>
+</li>
+<li>
+<p>The <strong>Variables</strong> section allows you define variables which you can use in other sections of the file. Here we only define the ${testbed} variable which contains the location of the testbed.yaml file which contains the access information to the devices we'll be interacting with.</p>
+</li>
+<li>
+<p>The final <strong>Test Cases</strong> section contains the actual test cases we are executing when running this file.<br />
+Robot (by default) executes each of the test cases in the order specified. A test case succeeds if all the steps within a test case succeed.</p>
+</li>
+</ul>
+<h2 id="run-the-test-case">Run the Test Case</h2>
+<p>Let's run it, executing it via <code>robot 01-test1.robot</code> on the container:</p>
+<pre><code>root@14b56b5cc0ac:/home/cisco/cxta/01-basic# robot 01-test1.robot
+==============================================================================
+01-Test1
+==============================================================================
+Load testbed and connect to devices                                   | PASS |
+------------------------------------------------------------------------------
+check version on r1                                                   | PASS |
+------------------------------------------------------------------------------
+check version on r2                                                   | PASS |
+------------------------------------------------------------------------------
+01-Test1                                                              | PASS |
+3 critical tests, 3 passed, 0 failed
+3 tests total, 3 passed, 0 failed
+==============================================================================
+Output:  /home/cisco/cxta/01-basic/output.xml
+Log:     /home/cisco/cxta/01-basic/log.html
+Report:  /home/cisco/cxta/01-basic/report.html
+root@14b56b5cc0ac:/home/cisco/cxta/01-basic#
+</code></pre>
+
+<h2 id="examine-robot-logfiles">Examine Robot Logfiles</h2>
+<p>The console output from Robotframework is quite terse and doesn't provide much more information than pass/fail for each of the test cases executed.</p>
+<p>For more detailed reporting, as well as for troubleshooting in case things go wrong, you need to revert to additional files created by Robot (CXTA creates some more diagnostic files which we are not going to cover here):</p>
+<ul>
+<li><code>log.html</code> is the most important log created and collects each test step including the device output and other diagnostic information </li>
+<li><code>report.html</code> contains a high-level report which shows pass/fail of each test case</li>
+<li><code>output.xml</code> contains essentially the same information as the former two files combined, however in structured XML format for automated post-processing</li>
+</ul>
+<p>Please open the log.html created in the directory XXXX/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)</p>
+<p><img alt="" src="../01-log1.png" /></p>
+<h2 id="test-failures">Test Failures</h2>
+<p>We suggest you repeat the test, but change the version value the ${output} is checked against in one of the "check version on rX" test cases, i.e.</p>
+<pre><code>[...]
+check version on r1
+    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
+    Should Contain   ${output}    Cisco IOS XE Software, Version 99999999
+</code></pre>
+
+<p>re-run the test, and re-examine the log.html created to see how robot highlights the error(s).</p>
+<h2 id="test-suite-setupteardown">Test Suite Setup/Teardown</h2>
+<p>By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the <code>-t</code> (or <code>--test</code>) command line argument.<br />
+Let's now run a test only checking r1's version:</p>
+<pre><code># robot -t &quot;check version on r1&quot; 01-test1.robot
+</code></pre>
+
+<p>(you can also use wildcards, i.e. <code>robot -t "*r1" 01-test1.robot</code> would also work)</p>
+<p>You see the test failing:</p>
+<pre><code>==============================================================================
+01-Test1
+==============================================================================
+check version on r1                                                   | FAIL |
+AttributeError: 'NoneType' object has no attribute 'devices'
+------------------------------------------------------------------------------
+01-Test1                                                              | FAIL |
+1 critical test, 0 passed, 1 failed
+1 test total, 0 passed, 1 failed
+</code></pre>
+
+<p>The error message is unfortunately not that obvious, but if you examine the full .robot file, the first test case ("Load testbed and connect to devices") is now skipped, which causes subsequent test cases which rely on the device connections to fail.</p>
+<p>This highlights a problem with the chosen approach (which we introduced for educational purposes ;-) ) as test cases are dependent on each other, which is something we should avoid as much as possible.</p>
+<p>To support test interdependency, Robotframework (like many other testing frameworks) support <strong>Setup</strong> and <strong>Teardown</strong> functions which can be executed before a test case starts (and after a test case finishes). These setup functions can also be specified at a test suite level, i.e. before the first test starts and after the last test finishes.</p>
+<p>We prepared a test suite utilizing this functionality in file 01-test2.robot:</p>
+<pre><code>*** Settings ***
+Library       CXTA
+Resource      cxta.robot
+Suite Setup   Load testbed and connect to devices
+
+*** Variables ***
+${testbed}    ${CURDIR}/../testbed.yaml
+
+*** Test Cases ***
+check version on r1
+    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+
+check version on r2
+    ${output}=   execute &quot;show version&quot; on device &quot;r2&quot;
+    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+
+*** Keywords ***
+Load testbed and connect to devices
+    use testbed &quot;${testbed}&quot;
+    connect to device &quot;r1&quot;
+    connect to device &quot;r2&quot;
+</code></pre>
+
+<p>Comparing this to 01-test1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the <strong>Suite Setup</strong>, i.e. before the first test is executed.</p>
+<p>With this change, we can now selectively run any test case:</p>
+<pre><code># robot -t &quot;check version on r1&quot; 01-test2.robot
+
+==============================================================================
+01-Test2
+==============================================================================
+check version on r1                                                   | PASS |
+------------------------------------------------------------------------------
+01-Test2                                                              | PASS |
+1 critical test, 1 passed, 0 failed
+1 test total, 1 passed, 0 failed
+[...]
+</code></pre>
+
+<p>The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the log.html in the browser: </p>
+<p><img alt="" src="../01-log2.png" /></p>
+<h2 id="whats-next">What's next?</h2>
+<p>Now that you have made yourself familiar with the environment and basic robot commands, let's move on to a <a href="../02-parsing/">more advanced use case</a> which shows you the power of some of the CXTA and pyATS keywords.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../00-setup/" title="00 Setup" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                00 Setup
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.b806dc00.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
