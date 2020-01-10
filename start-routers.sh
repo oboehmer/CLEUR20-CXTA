@@ -82,6 +82,8 @@ function create_testbed() {
     custom:
       abstraction:
         order: [os]
+      categories:
+      - ios
     credentials:
       default:
         username: vagrant
