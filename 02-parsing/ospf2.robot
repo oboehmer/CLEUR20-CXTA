@@ -14,27 +14,23 @@ Get the ospf neighbour ID from R1 using TextFSM keywords
     # runs a command and parses it through the TextFSM template provided
     # cxta includes a large collection of templates (view the 'Command Map' page in the documentation
     # though you are able to specify your own template, as we do in this example
-    run parsed "show ip ospf neighbor" with template "02-parsing/show_ip_ospf_neighbor.textfsm"
+    run parsed "show ip ospf neighbor" with template "${CURDIR}/show_ip_ospf_neighbor.textfsm"
     # get the data from the value of 'NEIGHBOR_ID' from the dictionary that was created in the keyword above
     ${NBR_ID}=  get parsed "NEIGHBOR_ID"
-    log to console  The Neighbor ID is ${NBR_ID}
+    Should be Equal as Strings   ${NBR_ID}   10.0.0.2
     # another example, this time getting the neighbor state
     ${NBR_STATE}=  get parsed "STATE"
-    log to console  The Neighbor state is ${NBR_STATE}
+    Should Contain    ${NBR_STATE}   FULL
 
 Get the ospf neighbor ID from R1 using Genie keywords (pyats)
-    select device "r1"
     # runs a command through the genie parser
-    ${d}=  parse "show ip ospf neighbor detail" on device "r1"
-    ${j}=  Evaluate  json.dumps($d, indent=4)   json
-    ${json}=  Convert String to JSON  ${j}
+    &{json}=  parse "show ip ospf neighbor detail" on device "r1"
 
     ${NBR_ID}=  Get Value From Json   ${json}   $..neighbors.*.neighbor_router_id
-    log to console  The Neighbor router ID is ${NBR_ID}[0]
+    Should be Equal as Strings   ${NBR_ID}[0]   10.0.0.2
 
     ${NBR_STATE}=  Get Value From Json   ${json}   $..neighbors.*.state
-    log to console  The Neighbor state is ${NBR_STATE}[0]
-
+    Should be Equal as Strings   ${NBR_STATE}[0]   full
 
 Check the OSPF hello interval on a specific interface
     # we now use a keyword specified in the keyword section of this robot file
@@ -55,7 +51,5 @@ Check if OSPF hello interval on device "${device}" interface "${interface}" is "
     # uses a pyats keyword to learn operational information on ospf
     # the keyword runs various ospf commands as per the platforms model in genie
     ${d}=  learn "ospf" on device "r1"
-    ${l}  evaluate   json.dumps($d.to_dict(), indent=4)   json
-    Log   ${l}
     ${v}=  Get Value From Json   ${d.to_dict()}   $..interfaces.${interface}.hello_interval
     Should be equal as numbers   ${v[0]}  ${interval}
