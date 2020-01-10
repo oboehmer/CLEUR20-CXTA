@@ -79,6 +79,9 @@ function create_testbed() {
   $r:
     type: router
     os: ios
+    custom:
+      abstraction:
+        order: [os]
     credentials:
       default:
         username: vagrant
