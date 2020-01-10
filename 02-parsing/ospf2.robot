@@ -22,8 +22,26 @@ Get the ospf neighbour ID from R1 using TextFSM keywords
     ${NBR_STATE}=  get parsed "STATE"
     Should Contain    ${NBR_STATE}   FULL
 
+Configure CDP on both routers and get the hostname of the neighbour device
+    # a cxta keyword to enable cdp globally and on the interface between the routers
+    configure "${CDP_CONFIG}" on devices "r1;r2"
+    select device "r1"
+    # Runs a command on a 15 second interval until the output contains a specific string or the timeout is reached
+    set monitor interval to "15" seconds
+    monitor command "show cdp neighbors" until output contains "Total cdp entries displayed : 1" or "60" seconds
+    # now we have a cdp neighbor, we will run the neighbor table through the TextFSM parser
+    ${output}=  run parsed "show cdp neighbors"
+    log  ${output}
+    # using the local interface, we can get the device id (hostname) of the neighbor
+    ${HOSTNAME}=  get parsed "device_id" where "local_intf" is "Gig 2"
+    log  ${HOSTNAME}
+    Should contain  ${HOSTNAME}   r2
+    # remove the CDP configuration
+    configure "${REMOVE_CDP_CONFIG}" on devices "r1;r2"
+
 Get the ospf neighbor ID from R1 using Genie keywords (pyats)
     # runs a command through the genie parser
+    select device "r1"
     &{json}=  parse "show ip ospf neighbor detail" on device "r1"
 
     ${NBR_ID}=  Get Value From Json   ${json}   $..neighbors.*.neighbor_router_id
@@ -53,3 +71,9 @@ Check if OSPF hello interval on device "${device}" interface "${interface}" is "
     ${d}=  learn "ospf" on device "r1"
     ${v}=  Get Value From Json   ${d.to_dict()}   $..interfaces.${interface}.hello_interval
     Should be equal as numbers   ${v[0]}  ${interval}
+
+*** Variables ***
+
+# a list with configuration commands
+@{CDP_CONFIG}=   cdp run    interface GigabitEthernet2    cdp enable
+@{REMOVE_CDP_CONFIG}=   no cdp run    interface GigabitEthernet2    no cdp enable
