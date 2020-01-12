@@ -7,6 +7,12 @@ Resource  cxta.robot
 # are run
 Suite Setup     suite-setup
 
+*** Variables ***
+
+# a list with configuration commands
+@{CDP_CONFIG}=   cdp run    interface GigabitEthernet2    cdp enable
+@{REMOVE_CDP_CONFIG}=   no cdp run    interface GigabitEthernet2    no cdp enable
+
 *** Test Cases ***
 
 Get the ospf neighbour ID from R1 using TextFSM keywords
@@ -71,9 +77,3 @@ Check if OSPF hello interval on device "${device}" interface "${interface}" is "
     ${d}=  learn "ospf" on device "r1"
     ${v}=  Get Value From Json   ${d.to_dict()}   $..interfaces.${interface}.hello_interval
     Should be equal as numbers   ${v[0]}  ${interval}
-
-*** Variables ***
-
-# a list with configuration commands
-@{CDP_CONFIG}=   cdp run    interface GigabitEthernet2    cdp enable
-@{REMOVE_CDP_CONFIG}=   no cdp run    interface GigabitEthernet2    no cdp enable
