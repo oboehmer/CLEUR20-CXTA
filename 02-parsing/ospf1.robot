@@ -39,19 +39,22 @@ Get the ospf neighbour ID from R1 using parsing keywords
     log to console  The Neighbor ID is ${NBR_ID}
 
 Get the ospf neighbor ID state from R1
+    # if the whole test suite was executed, these commands would not be needed as the output
+    # would still be in the buffer from the previous test case
+    select device "r1"
+    run "show ip ospf neighbor"
     # uses a longer regex pattern to retrieve the ospf state
-    # we don't need to use the 'run' keyword again to execute the command as it was
-    # the last output executed and therefore still in the buffer
     ${output}=  extract pattern "\\d+\.\\d+\.\\d+\.\\d+\\s+\\d+\\s+([\\w\/]+)"
     log to console  The OSPF neighbor has the state of "${output}"
     Should be equal  ${output}   FULL/BDR
 
 Check the ospf neighbor ID state is FULL/BDR
+    select device "r1"
+    run "show ip ospf neighbor"
     # instead of extracting patterns, we can verify that the output matches a pattern
     # in this example we are checking that 'FULL/BDR' is the state
     output matches pattern "\\d+\.\\d+\.\\d+\.\\d+\\s+\\d+\\s+FULL\/BDR"
     output matches pattern ".*FULL\/BDR"
-
 
 *** Keywords ***
 suite-setup
