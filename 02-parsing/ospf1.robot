@@ -39,7 +39,7 @@ Get the ospf neighbour ID from R1 using parsing keywords
     log to console  The Neighbor ID is ${NBR_ID}
 
 Get the ospf neighbor ID state from R1
-    # if the whole test suite was executed, these commands would not be needed as the output
+    # if the whole test suite was executed, these keywords would not be needed as the output
     # would still be in the buffer from the previous test case
     select device "r1"
     run "show ip ospf neighbor"
