@@ -10,3 +10,6 @@ site_author: Ava Thorn, Oliver Boehmer
 site_description: Utilizing Cisco CXTA service framework to validate network elements
 site_name: DEVWKS-1407
 theme: {font: false, name: material}
+markdown_extensions:
+  - codehilite:
+      linenums: true

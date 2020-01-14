@@ -101,7 +101,7 @@ root@14b56b5cc0ac:/home/devnet/cxta/02-parsing# robot 02-simple.robot
 
 ### Bonus Exercise: Leveraging Parameterization 
 
-You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different envirnment: We can easily run the test on the other router (r2), and check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the `-v VAR:VALUE` command line arg:
+You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different envirnment: We can easily re-run the test on the other router (r2) and this check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the `-v VAR:VALUE` command line options. Please give it a go:
 
 ```
 # robot -v device:r2 -v nbr_id:10.0.0.1 02-simple.robot
@@ -109,3 +109,93 @@ You might have noticed that we have parameterized the router name and expected r
 
 
 ## More Complex Parsing
+
+Parsing text using regular expression can be cumbersome, especially if the use case requires parsing multiple values from a single command output, potentially spread across different line.
+
+CXTA offers two approaches, which are shown in the next test suite (02-complex.robot): TextFSM, and pyATS Genie
+
+### Parsing using TextFSM
+
+[TextFSM](https://github.com/google/textfsm/wiki/TextFSM) is a Python module that implements a template based state machine for parsing semi-formatted text. Originally developed to allow programmatic access to information given by the output of CLI driven devices, such as network routers and switches, it can however be used for any such textual output.  
+
+CXTA has close to 1000 TextFSM templates which are able to parse a large variety of command from Cisco and 3rd party network devices, and the test user can also supply his/her own.
+
+In one of the tests defined in _02-complex.robot_, we use a custom TextFSM file just for demo purposes, you can find it as _show_ip_ospf_neighbor.textfsm_ in the current directory:
+
+```
+Value NEIGHBOR_ID (\d+.\d+.\d+.\d+)
+Value PRIORITY (\d+)
+Value STATE (\S+\/\s+\-|\S+)
+Value DEAD_TIME (\d+:\d+:\d+)
+Value ADDRESS (\d+.\d+.\d+.\d+)
+Value INTERFACE (\S+)
+
+Start
+  ^${NEIGHBOR_ID}\s+${PRIORITY}\s+${STATE}\s+${DEAD_TIME}\s+${ADDRESS}\s+${INTERFACE} -> Record
+```
+
+This template extracts values (as defined on the top of the file) for each of the lines which appear in the command output of "show ip ospf neighbor" (shared earlier), and records them in a dictionary/JSON object.
+
+Please check the test case below, which runs and parses the "show ip ospf neighbor" output using above TextFSM template, and subsequently extracts the information based on the field names defined in the TextFSM template (i.e. NEIGHBOR_ID and NBR_STATE)
+
+```
+Check OSPF neighbour ID using TextFSM
+    select device "r1"
+    # runs a command and parses it through the TextFSM template provided
+    # cxta includes a large collection of templates (view the 'Command Map' page in the documentation)
+    # though you are able to specify your own template, as we do in this example
+    run parsed "show ip ospf neighbor" with template "${CURDIR}/show_ip_ospf_neighbor.textfsm"
+    # get the data from the value of 'NEIGHBOR_ID' from the dictionary that was created in the keyword above
+    ${NBR_ID}=  get parsed "NEIGHBOR_ID"
+    # the checks below assume that we only see a single neighbor. If multiple neighbors
+    # are found, ${NBR_ID} will be a list, and we would need to iterate through the list, we
+    # leave this as an exercise for the reader ;-)
+    Should be Equal as Strings   ${NBR_ID}   10.0.0.2
+    # another example, this time getting the neighbor state
+    ${NBR_STATE}=  get parsed "STATE"
+    Should Contain    ${NBR_STATE}   FULL
+```
+
+Instead of using the `get parsed` keywords, you could also collect the return value from the `run parsed ...` keyword and examine the dictionary directly. We'll get back to parsing dict/json later.
+
+### Configuring and Retrying
+
+The next test case also use TextFSM parsing, this time using one of CXTA's TextFSM templates (show cdp neighbor). But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a simple protocol which allows you to discover \[network\] devices connected to a router), then re-run the command until a neighbour is seen (this can take up to a minute as CDP packets are not sent that frequently), before we parse it and check the host name of the neighbouring node, before we remove the CDP configuration again:
+
+```
+*** Variables ***
+${CDP_CONFIG}=          cdp run\ninterface GigabitEthernet2\ncdp enable
+${REMOVE_CDP_CONFIG}   no cdp run\ninterface GigabitEthernet2\nno cdp enable
+[...]
+
+
+Enable CDP and check hostname of neighbor (r2)
+    [Setup]   configure "${CDP_CONFIG}" on devices "r1;r2"
+    select device "r1"
+    # It takes a bit for the CDP neighbor to show, so we repeat a keyword for a bit we see the relevant
+    # info in the output
+    set monitor interval to "15" seconds
+    monitor command "show cdp neighbors" until output contains "Total cdp entries displayed : 1" or "60" seconds
+
+    # now we have a cdp neighbor, we will run the neighbor table through the TextFSM parser
+    ${output}=  run parsed "show cdp neighbors"
+    log  ${output}
+    # using the local interface, we can get the device id (hostname) of the neighbor
+    ${HOSTNAME}=  get parsed "device_id" where "local_intf" is "Gig 2"
+    log  ${HOSTNAME}
+    Should contain  ${HOSTNAME}   r2
+    [Teardown]   configure "${REMOVE_CDP_CONFIG}" on devices "r1;r2"
+```
+
+A few things to note here:
+
+- You see that we put the configuration and the removal of CDP into test case **Setup** and **Teardown** functions (lines 8 and 22). You have already seen the **Suite Setup** which allows us to initialize the environment prior to the first test case executed, and the Test Setup function is aquivalent within the test case context, i.e. we perform an initialization before the the first test keyword runs.  
+Removing the configuration in the Teardown is especially important. This ensures that the configaration is removed, no matter if any prior test step failed or not.
+
+- We use the CXTA keyword `monitor command ...` to check the presence of a specific string. We could have also used a built-in Robot keyword [Repeat Keyword](http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Repeat%20Keyword) to repeat the execution (left as a bonus exercise).
+
+- Finally, we use a different `get parsed ...` keyword (#19) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).
+
+## Parsing using Genie
+
+_todo_
