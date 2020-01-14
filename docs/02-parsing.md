@@ -4,13 +4,13 @@ Despite the enhancements to deal with network devices in a programmatic way over
 
 CXTA provides a variety of keywords and approaches to deal with parsing, which we want to introduce in this exercise.
 
-We again leverage the device environmnet shown earlier, and demonstrate multiple approaches on how to parse text data.
+We again leverage the device environment shown earlier, and demonstrate multiple approaches on how to parse text data.
 
 ## Simple Parsing
 
 In this test suite we show how to use simple approaches like checking for texts appearing, or extracting values from tests using Regular Expressions, a common way to parse text output.
 
-The command output we'll parse is the same for all the test cases in the first suite: `show ip ospf neighbor` which displayes the OSPF neighbour status on one of the two routers (r1 in this case):
+The command output we'll parse is the same for all the test cases in the first suite: `show ip ospf neighbor` which displays the OSPF neighbour status on one of the two routers (r1 in this case):
 
 ```
 r1#show ip ospf neighbor
@@ -25,7 +25,7 @@ Please change to the 02-parsing directory (`cd ../02-parsing`, assuming you are 
 
 A few notes here:
 
-- CXTA has evolved over time and has aggregated keywords from different sources within Cisco and externally over the years, and so some redundancy has been accumalated where the same task can be achieved using different keywords. For example the `run "show ip ospf neighbor"`  keyword on a device which has previously been selected is pretty much equivalent with the `execute command ..` keyword seen in the previous chapter.
+- CXTA has evolved over time and has aggregated keywords from different sources within Cisco and externally over the years, and so some redundancy has been accumulated where the same task can be achieved using different keywords. For example the `run "show ip ospf neighbor"`  keyword on a device which has previously been selected is pretty much equivalent with the `execute command ..` keyword seen in the previous chapter.
 - As robot interprets the backslash (`\`), we need to escape the backslashes used in Regular expressions (hence the `\\` seen in the expressions below)
 
 
@@ -101,7 +101,7 @@ root@14b56b5cc0ac:/home/devnet/cxta/02-parsing# robot 02-simple.robot
 
 ### Bonus Exercise: Leveraging Parameterization 
 
-You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different envirnment: We can easily re-run the test on the other router (r2) and this check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the `-v VAR:VALUE` command line options. Please give it a go:
+You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different environment: We can easily re-run the test on the other router (r2) and this check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the `-v VAR:VALUE` command line options. Please give it a go:
 
 ```
 # robot -v device:r2 -v nbr_id:10.0.0.1 02-simple.robot
@@ -189,8 +189,8 @@ Enable CDP and check hostname of neighbor (r2)
 
 A few things to note here:
 
-- You see that we put the configuration and the removal of CDP into test case **Setup** and **Teardown** functions (lines 8 and 22). You have already seen the **Suite Setup** which allows us to initialize the environment prior to the first test case executed, and the Test Setup function is aquivalent within the test case context, i.e. we perform an initialization before the the first test keyword runs.  
-Removing the configuration in the Teardown is especially important. This ensures that the configaration is removed, no matter if any prior test step failed or not.
+- You see that we put the configuration and the removal of CDP into test case **Setup** and **Teardown** functions (lines 8 and 22). You have already seen the **Suite Setup** which allows us to initialize the environment prior to the first test case executed, and the Test Setup function is equivalent within the test case context, i.e. we perform an initialization before the the first test keyword runs.  
+Removing the configuration in the Teardown is especially important. This ensures that the configuration is removed, no matter if any prior test step failed or not.
 
 - We use the CXTA keyword `monitor command ...` to check the presence of a specific string. We could have also used a built-in Robot keyword [Repeat Keyword](http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Repeat%20Keyword) to repeat the execution (left as a bonus exercise).
 
