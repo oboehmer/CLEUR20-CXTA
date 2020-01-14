@@ -341,6 +341,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../02-parsing/" title="02 Parsing Text" class="md-nav__link">
+      02 Parsing Text
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -433,50 +445,86 @@
 <p>This Chapter introduces you to some basic Robotframework fundamentals and generic device interaction keywords.</p>
 <h2 id="test-execution-environment">Test Execution Environment</h2>
 <p>The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the <a href="../00-setup/">previous chapter</a>.<br />
-The directory structure containing the scripts and tests has been mounted into the container (into /home/cisco/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.</p>
+The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.</p>
 <p>Open an interactive session on the container using the following command:</p>
-<pre><code>docker exec -it cxta_devnet bash
-</code></pre>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nv">docker</span> <span class="k">exec</span> <span class="o">-</span><span class="nv">it</span> <span class="nv">cxta_devnet</span> <span class="nv">bash</span>
+</pre></div>
+</td></tr></table>
 
-<p>You will end up in the <em>/home/cisco/cxta</em> directory, and you can see all the files from the directory you started the environment from:</p>
-<pre><code>root@14b56b5cc0ac:/home/cisco/cxta# ls
-01-basic    Makefile   Vagrantfile         docs        site              test-vms.robot
-02-parsing  README.md  docker-compose.yml  mkdocs.yml  start-routers.sh  testbed.yaml
-root@14b56b5cc0ac:/home/cisco/cxta#
-</code></pre>
+<p>You will end up in the <em>/home/devnet/cxta</em> directory, and you can see all the files from the directory you started the environment from:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span> <span class="n">ls</span>
+<span class="mo">01</span><span class="o">-</span><span class="n">basic</span>    <span class="n">Makefile</span>   <span class="n">Vagrantfile</span>         <span class="n">docs</span>        <span class="n">site</span>              <span class="n">test</span><span class="o">-</span><span class="n">vms</span><span class="p">.</span><span class="n">robot</span>
+<span class="mo">02</span><span class="o">-</span><span class="n">parsing</span>  <span class="n">README</span><span class="p">.</span><span class="n">md</span>  <span class="n">docker</span><span class="o">-</span><span class="n">compose</span><span class="p">.</span><span class="n">yml</span>  <span class="n">mkdocs</span><span class="p">.</span><span class="n">yml</span>  <span class="n">start</span><span class="o">-</span><span class="n">routers</span><span class="p">.</span><span class="n">sh</span>  <span class="n">testbed</span><span class="p">.</span><span class="n">yaml</span>
+<span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span>
+</pre></div>
+</td></tr></table>
 
 <p>You notice a directory <code>01-basic</code>, which contains the first test script we want to examine and execute:</p>
 <h2 id="your-first-test-case">Your First Test Case</h2>
-<p>Change to the 01-basic directory and examine the 01-test1.robot file contained therein:</p>
-<pre><code># cd 01-basic
-# cat 01-test1.robot
-*** Settings ***
-Library       CXTA
-Resource      cxta.robot
+<p>Change to the 01-basic directory and examine the 01-show1.robot file contained therein.<br />
+It is a simple test suite which connects to the two routers we have spun up, collects a command which shows the version running on them, and compares them with an expected value:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="codehilite"><pre><span></span># <span class="nv">cd</span> <span class="mi">01</span><span class="o">-</span><span class="nv">basic</span>
+# <span class="nv">cat</span> <span class="mi">01</span><span class="o">-</span><span class="nv">show1</span>.<span class="nv">robot</span>
 
-*** Variables ***
-# Location of the auto-generated testbed.yaml file which contains device
-# credentials. Rather than just using &quot;../testbed.yaml&quot;, which assumes
-# the execution directory is the current directory, we set it
-# relative to the directory this .robot file is in (${CURDIR}), which allows
-# us also to execute the test case from a different directory (for example from
-# the parent directory using   robot 01-basic/)
-${testbed}    ${CURDIR}/../testbed.yaml
+<span class="o">***</span> <span class="nv">Settings</span> <span class="o">***</span>
+<span class="nv">Library</span>       <span class="nv">CXTA</span>
+<span class="nv">Resource</span>      <span class="nv">cxta</span>.<span class="nv">robot</span>
 
-*** Test Cases ***
-Load testbed and connect to devices
-    use testbed &quot;${testbed}&quot;
-    connect to device &quot;r1&quot;
-    connect to device &quot;r2&quot;
+<span class="o">***</span> <span class="nv">Variables</span> <span class="o">***</span>
+# <span class="nv">Location</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">auto</span><span class="o">-</span><span class="nv">generated</span> <span class="nv">testbed</span>.<span class="nv">yaml</span> <span class="nv">file</span> <span class="nv">which</span> <span class="nv">contains</span> <span class="nv">device</span>
+# <span class="nv">credentials</span>. <span class="nv">Rather</span> <span class="nv">than</span> <span class="nv">just</span> <span class="nv">using</span> <span class="s2">&quot;</span><span class="s">../testbed.yaml</span><span class="s2">&quot;</span>, <span class="nv">which</span> <span class="nv">assumes</span>
+# <span class="nv">the</span> <span class="nv">execution</span> <span class="nv">directory</span> <span class="nv">is</span> <span class="nv">the</span> <span class="nv">current</span> <span class="nv">directory</span>, <span class="nv">we</span> <span class="nv">set</span> <span class="nv">it</span>
+# <span class="nv">relative</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">directory</span> <span class="nv">this</span> .<span class="nv">robot</span> <span class="nv">file</span> <span class="nv">is</span> <span class="nv">in</span> <span class="ss">(</span>${<span class="nv">CURDIR</span>}<span class="ss">)</span>, <span class="nv">which</span> <span class="nv">allows</span>
+# <span class="nv">us</span> <span class="nv">also</span> <span class="nv">to</span> <span class="nv">execute</span> <span class="nv">the</span> <span class="nv">test</span> <span class="nv">case</span> <span class="nv">from</span> <span class="nv">a</span> <span class="nv">different</span> <span class="nv">directory</span> <span class="ss">(</span><span class="k">for</span> <span class="nv">example</span> <span class="nv">from</span>
+# <span class="nv">the</span> <span class="nv">parent</span> <span class="nv">directory</span> <span class="nv">using</span>   <span class="nv">robot</span> <span class="mi">01</span><span class="o">-</span><span class="nv">basic</span><span class="o">/</span><span class="ss">)</span>
+${<span class="nv">testbed</span>}    ${<span class="nv">CURDIR</span>}<span class="o">/</span>..<span class="o">/</span><span class="nv">testbed</span>.<span class="nv">yaml</span>
 
-check version on r1
-    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
-    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+<span class="o">***</span> <span class="nv">Test</span> <span class="nv">Cases</span> <span class="o">***</span>
+<span class="nv">Load</span> <span class="nv">testbed</span> <span class="nv">and</span> <span class="k">connect</span> <span class="nv">to</span> <span class="nv">devices</span>
+    <span class="nv">use</span> <span class="nv">testbed</span> <span class="s2">&quot;</span><span class="s">${testbed}</span><span class="s2">&quot;</span>
+    <span class="k">connect</span> <span class="nv">to</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r1</span><span class="s2">&quot;</span>
+    <span class="k">connect</span> <span class="nv">to</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r2</span><span class="s2">&quot;</span>
 
-check version on r2
-    ${output}=   execute &quot;show version&quot; on device &quot;r2&quot;
-    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
-</code></pre>
+<span class="nv">check</span> <span class="nv">version</span> <span class="nv">on</span> <span class="nv">r1</span>
+    ${<span class="nv">output</span>}<span class="o">=</span>   <span class="nv">execute</span> <span class="s2">&quot;</span><span class="s">show version</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r1</span><span class="s2">&quot;</span>
+    <span class="nv">Should</span> <span class="nv">Contain</span>   ${<span class="nv">output</span>}    <span class="nv">Cisco</span> <span class="nv">IOS</span> <span class="nv">XE</span> <span class="nv">Software</span>, <span class="nv">Version</span> <span class="mi">16</span>.<span class="mi">09</span>.<span class="mi">01</span>
+
+<span class="nv">check</span> <span class="nv">version</span> <span class="nv">on</span> <span class="nv">r2</span>
+    ${<span class="nv">output</span>}<span class="o">=</span>   <span class="nv">execute</span> <span class="s2">&quot;</span><span class="s">show version</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r2</span><span class="s2">&quot;</span>
+    <span class="nv">Should</span> <span class="nv">Contain</span>   ${<span class="nv">output</span>}    <span class="nv">Cisco</span> <span class="nv">IOS</span> <span class="nv">XE</span> <span class="nv">Software</span>, <span class="nv">Version</span> <span class="mi">16</span>.<span class="mi">09</span>.<span class="mi">01</span>
+</pre></div>
+</td></tr></table>
 
 <p>This file is a robotframework test file, and you notice different sections:</p>
 <ul>
@@ -492,26 +540,44 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 </li>
 </ul>
 <h2 id="run-the-test-case">Run the Test Case</h2>
-<p>Let's run it, executing it via <code>robot 01-test1.robot</code> on the container:</p>
-<pre><code>root@14b56b5cc0ac:/home/cisco/cxta/01-basic# robot 01-test1.robot
-==============================================================================
-01-Test1
-==============================================================================
-Load testbed and connect to devices                                   | PASS |
-------------------------------------------------------------------------------
-check version on r1                                                   | PASS |
-------------------------------------------------------------------------------
-check version on r2                                                   | PASS |
-------------------------------------------------------------------------------
-01-Test1                                                              | PASS |
-3 critical tests, 3 passed, 0 failed
-3 tests total, 3 passed, 0 failed
-==============================================================================
-Output:  /home/cisco/cxta/01-basic/output.xml
-Log:     /home/cisco/cxta/01-basic/log.html
-Report:  /home/cisco/cxta/01-basic/report.html
-root@14b56b5cc0ac:/home/cisco/cxta/01-basic#
-</code></pre>
+<p>Let's run it, executing it via <code>robot 01-show1.robot</code> on the container:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="o">/</span><span class="mo">01</span><span class="o">-</span><span class="n">basic</span><span class="err">#</span> <span class="n">robot</span> <span class="mo">01</span><span class="o">-</span><span class="n">show1</span><span class="p">.</span><span class="n">robot</span>
+<span class="o">==============================================================================</span>
+<span class="mo">01</span><span class="o">-</span><span class="n">Test1</span>
+<span class="o">==============================================================================</span>
+<span class="n">Load</span> <span class="n">testbed</span> <span class="n">and</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">devices</span>                                   <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="n">check</span> <span class="n">version</span> <span class="n">on</span> <span class="n">r1</span>                                                   <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="n">check</span> <span class="n">version</span> <span class="n">on</span> <span class="n">r2</span>                                                   <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="mo">01</span><span class="o">-</span><span class="n">Test1</span>                                                              <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="mi">3</span> <span class="n">critical</span> <span class="n">tests</span><span class="p">,</span> <span class="mi">3</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failed</span>
+<span class="mi">3</span> <span class="n">tests</span> <span class="n">total</span><span class="p">,</span> <span class="mi">3</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failed</span>
+<span class="o">==============================================================================</span>
+<span class="nl">Output</span><span class="p">:</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="o">/</span><span class="mo">01</span><span class="o">-</span><span class="n">basic</span><span class="o">/</span><span class="n">output</span><span class="p">.</span><span class="n">xml</span>
+<span class="nl">Log</span><span class="p">:</span>     <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="o">/</span><span class="mo">01</span><span class="o">-</span><span class="n">basic</span><span class="o">/</span><span class="n">log</span><span class="p">.</span><span class="n">html</span>
+<span class="nl">Report</span><span class="p">:</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="o">/</span><span class="mo">01</span><span class="o">-</span><span class="n">basic</span><span class="o">/</span><span class="n">report</span><span class="p">.</span><span class="n">html</span>
+<span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="o">/</span><span class="mo">01</span><span class="o">-</span><span class="n">basic</span><span class="err">#</span>
+</pre></div>
+</td></tr></table>
 
 <h2 id="examine-robot-logfiles">Examine Robot Logfiles</h2>
 <p>The console output from Robotframework is quite terse and doesn't provide much more information than pass/fail for each of the test cases executed.</p>
@@ -525,74 +591,121 @@ root@14b56b5cc0ac:/home/cisco/cxta/01-basic#
 <p><img alt="" src="../01-log1.png" /></p>
 <h2 id="test-failures">Test Failures</h2>
 <p>We suggest you repeat the test, but change the version value the ${output} is checked against in one of the "check version on rX" test cases, i.e.</p>
-<pre><code>[...]
-check version on r1
-    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
-    Should Contain   ${output}    Cisco IOS XE Software, Version 99999999
-</code></pre>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">[...]</span>
+<span class="na">check version on r1</span>
+    <span class="na">${output}</span><span class="o">=</span>   <span class="s">execute &quot;show version&quot; on device &quot;r1&quot;</span>
+<span class="s">    Should Contain   ${output}    Cisco IOS XE Software, Version 99999999</span>
+</pre></div>
+</td></tr></table>
 
 <p>re-run the test, and re-examine the log.html created to see how robot highlights the error(s).</p>
 <h2 id="test-suite-setupteardown">Test Suite Setup/Teardown</h2>
 <p>By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the <code>-t</code> (or <code>--test</code>) command line argument.<br />
 Let's now run a test only checking r1's version:</p>
-<pre><code># robot -t &quot;check version on r1&quot; 01-test1.robot
-</code></pre>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">#</span> <span class="n">robot</span> <span class="o">-</span><span class="n">t</span> <span class="ss">&quot;check version on r1&quot;</span> <span class="mi">01</span><span class="o">-</span><span class="n">show1</span><span class="p">.</span><span class="n">robot</span>
+</pre></div>
+</td></tr></table>
 
-<p>(you can also use wildcards, i.e. <code>robot -t "*r1" 01-test1.robot</code> would also work)</p>
+<p>(you can also use wildcards, i.e. <code>robot -t "*r1" 01-show1.robot</code> would also work)</p>
 <p>You see the test failing:</p>
-<pre><code>==============================================================================
-01-Test1
-==============================================================================
-check version on r1                                                   | FAIL |
-AttributeError: 'NoneType' object has no attribute 'devices'
-------------------------------------------------------------------------------
-01-Test1                                                              | FAIL |
-1 critical test, 0 passed, 1 failed
-1 test total, 0 passed, 1 failed
-</code></pre>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">==============================================================================</span>
+<span class="mi">01</span><span class="o">-</span><span class="n">Test1</span>
+<span class="o">==============================================================================</span>
+<span class="k">check</span> <span class="k">version</span> <span class="k">on</span> <span class="n">r1</span>                                                   <span class="o">|</span> <span class="n">FAIL</span> <span class="o">|</span>
+<span class="n">AttributeError</span><span class="p">:</span> <span class="s1">&#39;NoneType&#39;</span> <span class="k">object</span> <span class="n">has</span> <span class="k">no</span> <span class="n">attribute</span> <span class="s1">&#39;devices&#39;</span>
+<span class="c1">------------------------------------------------------------------------------</span>
+<span class="mi">01</span><span class="o">-</span><span class="n">Test1</span>                                                              <span class="o">|</span> <span class="n">FAIL</span> <span class="o">|</span>
+<span class="mi">1</span> <span class="n">critical</span> <span class="n">test</span><span class="p">,</span> <span class="mi">0</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">1</span> <span class="n">failed</span>
+<span class="mi">1</span> <span class="n">test</span> <span class="n">total</span><span class="p">,</span> <span class="mi">0</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">1</span> <span class="n">failed</span>
+</pre></div>
+</td></tr></table>
 
 <p>The error message is unfortunately not that obvious, but if you examine the full .robot file, the first test case ("Load testbed and connect to devices") is now skipped, which causes subsequent test cases which rely on the device connections to fail.</p>
 <p>This highlights a problem with the chosen approach (which we introduced for educational purposes ;-) ) as test cases are dependent on each other, which is something we should avoid as much as possible.</p>
 <p>To support test interdependency, Robotframework (like many other testing frameworks) support <strong>Setup</strong> and <strong>Teardown</strong> functions which can be executed before a test case starts (and after a test case finishes). These setup functions can also be specified at a test suite level, i.e. before the first test starts and after the last test finishes.</p>
-<p>We prepared a test suite utilizing this functionality in file 01-test2.robot:</p>
-<pre><code>*** Settings ***
-Library       CXTA
-Resource      cxta.robot
-Suite Setup   Load testbed and connect to devices
+<p>We prepared a test suite utilizing this functionality in file 01-show2.robot:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">***</span> <span class="nv">Settings</span> <span class="o">***</span>
+<span class="nv">Library</span>       <span class="nv">CXTA</span>
+<span class="nv">Resource</span>      <span class="nv">cxta</span>.<span class="nv">robot</span>
+<span class="nv">Suite</span> <span class="nv">Setup</span>   <span class="nv">Load</span> <span class="nv">testbed</span> <span class="nv">and</span> <span class="k">connect</span> <span class="nv">to</span> <span class="nv">devices</span>
 
-*** Variables ***
-${testbed}    ${CURDIR}/../testbed.yaml
+<span class="o">***</span> <span class="nv">Variables</span> <span class="o">***</span>
+${<span class="nv">testbed</span>}    ${<span class="nv">CURDIR</span>}<span class="o">/</span>..<span class="o">/</span><span class="nv">testbed</span>.<span class="nv">yaml</span>
 
-*** Test Cases ***
-check version on r1
-    ${output}=   execute &quot;show version&quot; on device &quot;r1&quot;
-    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+<span class="o">***</span> <span class="nv">Test</span> <span class="nv">Cases</span> <span class="o">***</span>
+<span class="nv">check</span> <span class="nv">version</span> <span class="nv">on</span> <span class="nv">r1</span>
+    ${<span class="nv">output</span>}<span class="o">=</span>   <span class="nv">execute</span> <span class="s2">&quot;</span><span class="s">show version</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r1</span><span class="s2">&quot;</span>
+    <span class="nv">Should</span> <span class="nv">Contain</span>   ${<span class="nv">output</span>}    <span class="nv">Cisco</span> <span class="nv">IOS</span> <span class="nv">XE</span> <span class="nv">Software</span>, <span class="nv">Version</span> <span class="mi">16</span>.<span class="mi">09</span>.<span class="mi">01</span>
 
-check version on r2
-    ${output}=   execute &quot;show version&quot; on device &quot;r2&quot;
-    Should Contain   ${output}    Cisco IOS XE Software, Version 16.09.01
+<span class="nv">check</span> <span class="nv">version</span> <span class="nv">on</span> <span class="nv">r2</span>
+    ${<span class="nv">output</span>}<span class="o">=</span>   <span class="nv">execute</span> <span class="s2">&quot;</span><span class="s">show version</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r2</span><span class="s2">&quot;</span>
+    <span class="nv">Should</span> <span class="nv">Contain</span>   ${<span class="nv">output</span>}    <span class="nv">Cisco</span> <span class="nv">IOS</span> <span class="nv">XE</span> <span class="nv">Software</span>, <span class="nv">Version</span> <span class="mi">16</span>.<span class="mi">09</span>.<span class="mi">01</span>
 
-*** Keywords ***
-Load testbed and connect to devices
-    use testbed &quot;${testbed}&quot;
-    connect to device &quot;r1&quot;
-    connect to device &quot;r2&quot;
-</code></pre>
+<span class="o">***</span> <span class="nv">Keywords</span> <span class="o">***</span>
+<span class="nv">Load</span> <span class="nv">testbed</span> <span class="nv">and</span> <span class="k">connect</span> <span class="nv">to</span> <span class="nv">devices</span>
+    <span class="nv">use</span> <span class="nv">testbed</span> <span class="s2">&quot;</span><span class="s">${testbed}</span><span class="s2">&quot;</span>
+    <span class="k">connect</span> <span class="nv">to</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r1</span><span class="s2">&quot;</span>
+    <span class="k">connect</span> <span class="nv">to</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r2</span><span class="s2">&quot;</span>
+</pre></div>
+</td></tr></table>
 
-<p>Comparing this to 01-test1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the <strong>Suite Setup</strong>, i.e. before the first test is executed.</p>
+<p>Comparing this to 01-show1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the <strong>Suite Setup</strong>, i.e. before the first test is executed.</p>
 <p>With this change, we can now selectively run any test case:</p>
-<pre><code># robot -t &quot;check version on r1&quot; 01-test2.robot
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">#</span> <span class="n">robot</span> <span class="o">-</span><span class="n">t</span> <span class="ss">&quot;check version on r1&quot;</span> <span class="mi">01</span><span class="o">-</span><span class="n">show2</span><span class="p">.</span><span class="n">robot</span>
 
-==============================================================================
-01-Test2
-==============================================================================
-check version on r1                                                   | PASS |
-------------------------------------------------------------------------------
-01-Test2                                                              | PASS |
-1 critical test, 1 passed, 0 failed
-1 test total, 1 passed, 0 failed
-[...]
-</code></pre>
+<span class="o">==============================================================================</span>
+<span class="mi">01</span><span class="o">-</span><span class="n">Test2</span>
+<span class="o">==============================================================================</span>
+<span class="k">check</span> <span class="k">version</span> <span class="k">on</span> <span class="n">r1</span>                                                   <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="c1">------------------------------------------------------------------------------</span>
+<span class="mi">01</span><span class="o">-</span><span class="n">Test2</span>                                                              <span class="o">|</span> <span class="n">PASS</span> <span class="o">|</span>
+<span class="mi">1</span> <span class="n">critical</span> <span class="n">test</span><span class="p">,</span> <span class="mi">1</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failed</span>
+<span class="mi">1</span> <span class="n">test</span> <span class="n">total</span><span class="p">,</span> <span class="mi">1</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failed</span>
+<span class="p">[...]</span>
+</pre></div>
+</td></tr></table>
 
 <p>The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the log.html in the browser: </p>
 <p><img alt="" src="../01-log2.png" /></p>
@@ -632,6 +745,20 @@ check version on r1                                                   | PASS |
             </div>
           </a>
         
+        
+          <a href="../02-parsing/" title="02 Parsing Text" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                02 Parsing Text
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
