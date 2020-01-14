@@ -1,21 +1,19 @@
 *** Settings ***
-Library   Collections  # Imports a public Robot framework library called 'Collections'
-Library   CXTA
-Resource  cxta.robot
-
-# the following causes a specific keyword to execute before any of the tests
-# are run
-Suite Setup     suite-setup
+Library       CXTA
+Resource      cxta.robot
+Library       Collections       # Imports a public Robot framework library which provides the keyword "Log List" used in one of the tests
+Suite Setup   Load testbed and connect to devices
 
 *** Variables ***
+${testbed}     ${CURDIR}/../testbed.yaml
 
-# a list with configuration commands
-@{CDP_CONFIG}=   cdp run    interface GigabitEthernet2    cdp enable
+# we can define lists by using @ prefix (& for dicts)
+@{CDP_CONFIG}=          cdp run       interface GigabitEthernet2    cdp enable
 @{REMOVE_CDP_CONFIG}=   no cdp run    interface GigabitEthernet2    no cdp enable
 
 *** Test Cases ***
 
-Get the ospf neighbour ID from R1 using TextFSM keywords
+Check OSPF neighbour ID using TextFSM
     select device "r1"
     # runs a command and parses it through the TextFSM template provided
     # cxta includes a large collection of templates (view the 'Command Map' page in the documentation
@@ -28,13 +26,14 @@ Get the ospf neighbour ID from R1 using TextFSM keywords
     ${NBR_STATE}=  get parsed "STATE"
     Should Contain    ${NBR_STATE}   FULL
 
-Configure CDP on both routers and get the hostname of the neighbour device
-    # a cxta keyword to enable cdp globally and on the interface between the routers
-    configure "${CDP_CONFIG}" on devices "r1;r2"
+Enable CDP and check hostname of neighbor (r2)
+    [Setup]     configure "${CDP_CONFIG}" on devices "r1;r2"
     select device "r1"
-    # Runs a command on a 15 second interval until the output contains a specific string or the timeout is reached
+    # It takes a bit for the CDP neighbor to show, so we repeat a keyword for a bit we see the relevant
+    # info in the output
     set monitor interval to "15" seconds
     monitor command "show cdp neighbors" until output contains "Total cdp entries displayed : 1" or "60" seconds
+
     # now we have a cdp neighbor, we will run the neighbor table through the TextFSM parser
     ${output}=  run parsed "show cdp neighbors"
     log  ${output}
@@ -42,12 +41,10 @@ Configure CDP on both routers and get the hostname of the neighbour device
     ${HOSTNAME}=  get parsed "device_id" where "local_intf" is "Gig 2"
     log  ${HOSTNAME}
     Should contain  ${HOSTNAME}   r2
-    # remove the CDP configuration
-    configure "${REMOVE_CDP_CONFIG}" on devices "r1;r2"
+    [Teardown]    configure "${REMOVE_CDP_CONFIG}" on devices "r1;r2"
 
 Get the ospf neighbor ID from R1 using Genie keywords (pyats)
     # runs a command through the genie parser
-    select device "r1"
     &{json}=  parse "show ip ospf neighbor detail" on device "r1"
 
     ${NBR_ID}=  Get Value From Json   ${json}   $..neighbors.*.neighbor_router_id
@@ -57,18 +54,16 @@ Get the ospf neighbor ID from R1 using Genie keywords (pyats)
     Should be Equal as Strings   ${NBR_STATE}[0]   full
 
 Check the OSPF hello interval on a specific interface
-    # we now use a keyword specified in the keyword section of this robot file
-    # in the keyword the user can specify the device name and the interface
+    # we now use a keyword specified in the keyword section of this robot file below
+    # in the keyword the user can specify the device name and the interface, so the
+    # very same check can be reused in different test cases
     Check if OSPF hello interval on device "r1" interface "GigabitEthernet2" is "10"
 
 
 *** Keywords ***
-suite-setup
-    # instead of referencing "../testbed.yaml", we use full the pathname relative to
-    # the directory containing the test suite (this robot file). This way we can run
-    # the tests also from a different location (i.e. using "robot 01-parsing/")
-    use testbed "${CURDIR}/../testbed.yaml"
-    use genie testbed "${CURDIR}/../testbed.yaml"
+Load testbed and connect to devices
+    use testbed "${testbed}"
+    use genie testbed "${testbed}"
     connect to all devices
 
 Check if OSPF hello interval on device "${device}" interface "${interface}" is "${interval}"

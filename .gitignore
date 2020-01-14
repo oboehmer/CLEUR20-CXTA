@@ -1,5 +1,6 @@
 # ignore the auto-generated testbed.yaml
 /testbed.yaml
+.vagrant/
 
 *.html
 *.xml
