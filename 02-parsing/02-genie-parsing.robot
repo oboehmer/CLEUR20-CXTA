@@ -11,7 +11,6 @@ Resource      cxta.robot
 # Library     unicon.robot.UniconRobot
 # Library     genie.libs.robot.GenieRobot
 
-
 Suite Setup   Load testbed and connect to devices
 
 *** Variables ***

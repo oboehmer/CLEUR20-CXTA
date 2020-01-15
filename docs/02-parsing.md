@@ -160,7 +160,8 @@ Instead of using the `get parsed` keywords, you could also collect the return va
 
 ### Configuring and Retrying
 
-The next test case also use TextFSM parsing, this time using one of CXTA's TextFSM templates (show cdp neighbor). But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a simple protocol which allows you to discover \[network\] devices connected to a router), then re-run the command until a neighbour is seen (this can take up to a minute as CDP packets are not sent that frequently), before we parse it and check the host name of the neighbouring node, before we remove the CDP configuration again:
+The next test case also use TextFSM parsing, this time using one of CXTA's TextFSM templates (show cdp neighbor, you can view the template at /venv/lib/python3.6/site-packages/CXTA/core/commands/ios/show_cdp_neighbors.textfsm on the container).  
+But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a simple protocol which allows you to discover \[network\] devices connected to a router), then re-run the command until a neighbour is seen (this can take up to a minute as CDP packets are not sent that frequently), before we parse it and check the host name of the neighbouring node. Finally we remove the CDP configuration to restore the test bed to its previous state (which is always a good practice):
 
 ```
 *** Variables ***
