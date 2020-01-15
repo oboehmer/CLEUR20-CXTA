@@ -669,7 +669,8 @@ Start
 
 <p>Instead of using the <code>get parsed</code> keywords, you could also collect the return value from the <code>run parsed ...</code> keyword and examine the dictionary directly. We'll get back to parsing dict/json later.</p>
 <h3 id="configuring-and-retrying">Configuring and Retrying</h3>
-<p>The next test case also use TextFSM parsing, this time using one of CXTA's TextFSM templates (show cdp neighbor). But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a simple protocol which allows you to discover [network] devices connected to a router), then re-run the command until a neighbour is seen (this can take up to a minute as CDP packets are not sent that frequently), before we parse it and check the host name of the neighbouring node, before we remove the CDP configuration again:</p>
+<p>The next test case also use TextFSM parsing, this time using one of CXTA's TextFSM templates (show cdp neighbor, you can view the template at /venv/lib/python3.6/site-packages/CXTA/core/commands/ios/show_cdp_neighbors.textfsm on the container).<br />
+But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a simple protocol which allows you to discover [network] devices connected to a router), then re-run the command until a neighbour is seen (this can take up to a minute as CDP packets are not sent that frequently), before we parse it and check the host name of the neighbouring node. Finally we remove the CDP configuration to restore the test bed to its previous state (which is always a good practice):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
