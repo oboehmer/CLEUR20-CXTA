@@ -5,7 +5,7 @@ This Chapter introduces you to some basic Robotframework fundamentals and generi
 ## Test Execution Environment
 
 The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the [previous chapter](00-setup.md).  
-The directory structure containing the scripts and tests has been mounted into the container (into /home/cisco/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.
+The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.
 
 Open an interactive session on the container using the following command:
 
@@ -13,24 +13,26 @@ Open an interactive session on the container using the following command:
 docker exec -it cxta_devnet bash
 ```
 
-You will end up in the _/home/cisco/cxta_ directory, and you can see all the files from the directory you started the environment from:
+You will end up in the _/home/devnet/cxta_ directory, and you can see all the files from the directory you started the environment from:
 
 ```
-root@14b56b5cc0ac:/home/cisco/cxta# ls
+root@14b56b5cc0ac:/home/devnet/cxta# ls
 01-basic    Makefile   Vagrantfile         docs        site              test-vms.robot
 02-parsing  README.md  docker-compose.yml  mkdocs.yml  start-routers.sh  testbed.yaml
-root@14b56b5cc0ac:/home/cisco/cxta#
+root@14b56b5cc0ac:/home/devnet/cxta#
 ```
 
 You notice a directory `01-basic`, which contains the first test script we want to examine and execute:
 
 ## Your First Test Case
 
-Change to the 01-basic directory and examine the 01-test1.robot file contained therein:
+Change to the 01-basic directory and examine the 01-show1.robot file contained therein.  
+It is a simple test suite which connects to the two routers we have spun up, collects a command which shows the version running on them, and compares them with an expected value:
 
 ```
 # cd 01-basic
-# cat 01-test1.robot
+# cat 01-show1.robot
+
 *** Settings ***
 Library       CXTA
 Resource      cxta.robot
@@ -71,10 +73,10 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 
 ## Run the Test Case
 
-Let's run it, executing it via `robot 01-test1.robot` on the container:
+Let's run it, executing it via `robot 01-show1.robot` on the container:
 
 ```
-root@14b56b5cc0ac:/home/cisco/cxta/01-basic# robot 01-test1.robot
+root@14b56b5cc0ac:/home/devnet/cxta/01-basic# robot 01-show1.robot
 ==============================================================================
 01-Test1
 ==============================================================================
@@ -88,10 +90,10 @@ check version on r2                                                   | PASS |
 3 critical tests, 3 passed, 0 failed
 3 tests total, 3 passed, 0 failed
 ==============================================================================
-Output:  /home/cisco/cxta/01-basic/output.xml
-Log:     /home/cisco/cxta/01-basic/log.html
-Report:  /home/cisco/cxta/01-basic/report.html
-root@14b56b5cc0ac:/home/cisco/cxta/01-basic#
+Output:  /home/devnet/cxta/01-basic/output.xml
+Log:     /home/devnet/cxta/01-basic/log.html
+Report:  /home/devnet/cxta/01-basic/report.html
+root@14b56b5cc0ac:/home/devnet/cxta/01-basic#
 ```
 
 
@@ -130,10 +132,10 @@ By default, Robot executes all tests within a test suite (the robot file above i
 Let's now run a test only checking r1's version:
 
 ```
-# robot -t "check version on r1" 01-test1.robot
+# robot -t "check version on r1" 01-show1.robot
 ```
 
-(you can also use wildcards, i.e. `robot -t "*r1" 01-test1.robot` would also work)
+(you can also use wildcards, i.e. `robot -t "*r1" 01-show1.robot` would also work)
 
 You see the test failing:
 
@@ -155,7 +157,7 @@ This highlights a problem with the chosen approach (which we introduced for educ
 
 To support test interdependency, Robotframework (like many other testing frameworks) support **Setup** and **Teardown** functions which can be executed before a test case starts (and after a test case finishes). These setup functions can also be specified at a test suite level, i.e. before the first test starts and after the last test finishes.
 
-We prepared a test suite utilizing this functionality in file 01-test2.robot:
+We prepared a test suite utilizing this functionality in file 01-show2.robot:
 
 ```
 *** Settings ***
@@ -182,12 +184,12 @@ Load testbed and connect to devices
     connect to device "r2"
 ```
 
-Comparing this to 01-test1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the **Suite Setup**, i.e. before the first test is executed.
+Comparing this to 01-show1.robot, you'll notice that the first test case (where we connect to the devices) has now moved into the Keywords section, this creating a new Robot keyword "Load testbed and connect to devices", which is now called as part of the **Suite Setup**, i.e. before the first test is executed.
 
 With this change, we can now selectively run any test case:
 
 ```
-# robot -t "check version on r1" 01-test2.robot
+# robot -t "check version on r1" 01-show2.robot
 
 ==============================================================================
 01-Test2
