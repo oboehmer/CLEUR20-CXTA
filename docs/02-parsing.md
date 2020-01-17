@@ -112,7 +112,7 @@ You might have noticed that we have parameterized the router name and expected r
 
 Parsing text using regular expression can be cumbersome, especially if the use case requires parsing multiple values from a single command output, potentially spread across different line.
 
-CXTA offers two approaches, which are shown in the next test suite (02-complex.robot): TextFSM, and pyATS Genie
+CXTA offers two approaches: TextFSM (shown below), and pyATS Genie (next chapter)
 
 ### Parsing using TextFSM
 
@@ -197,6 +197,7 @@ Removing the configuration in the Teardown is especially important. This ensures
 
 - Finally, we use a different `get parsed ...` keyword (#19) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).
 
-## Parsing using Genie
 
-_todo_
+## Next Steps
+
+If you still have time, we would like to share a different, and even more powerful and versatile approach on how to parse Cisco and some other devices: [Parsing with pyATS GENIE](03-genie.md)
