@@ -702,15 +702,13 @@ But to add a bit more "fun", we first configure CDP (Cisco Discovery Protocol, a
 17
 18
 19
-20
-21
-22</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">***</span> <span class="nv">Variables</span> <span class="o">***</span>
+20</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">***</span> <span class="nv">Variables</span> <span class="o">***</span>
 ${<span class="nv">CDP_CONFIG</span>}<span class="o">=</span>          <span class="nv">cdp</span> <span class="nv">run</span>\<span class="nv">ninterface</span> <span class="nv">GigabitEthernet2</span>\<span class="nv">ncdp</span> <span class="nv">enable</span>
 ${<span class="nv">REMOVE_CDP_CONFIG</span>}   <span class="nv">no</span> <span class="nv">cdp</span> <span class="nv">run</span>\<span class="nv">ninterface</span> <span class="nv">GigabitEthernet2</span>\<span class="nv">nno</span> <span class="nv">cdp</span> <span class="nv">enable</span>
 [...]
 
 
-<span class="nv">Enable</span> <span class="nv">CDP</span> <span class="nv">and</span> <span class="nv">check</span> <span class="nv">hostname</span> <span class="nv">of</span> <span class="nv">neighbor</span> <span class="ss">(</span><span class="nv">r2</span><span class="ss">)</span>
+<span class="nv">Enable</span> <span class="nv">CDP</span> <span class="nv">and</span> <span class="nv">check</span> <span class="nv">neighbor</span> <span class="nv">hostname</span> <span class="nv">using</span> <span class="nv">TextFSM</span>
     [<span class="nv">Setup</span>]   <span class="nv">configure</span> <span class="s2">&quot;</span><span class="s">${CDP_CONFIG}</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">devices</span> <span class="s2">&quot;</span><span class="s">r1;r2</span><span class="s2">&quot;</span>
     <span class="nv">select</span> <span class="nv">device</span> <span class="s2">&quot;</span><span class="s">r1</span><span class="s2">&quot;</span>
     # <span class="nv">It</span> <span class="nv">takes</span> <span class="nv">a</span> <span class="nv">bit</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">CDP</span> <span class="nv">neighbor</span> <span class="nv">to</span> <span class="k">show</span>, <span class="nv">so</span> <span class="nv">we</span> <span class="nv">repeat</span> <span class="nv">a</span> <span class="nv">keyword</span> <span class="k">for</span> <span class="nv">a</span> <span class="nv">bit</span> <span class="nv">we</span> <span class="nv">see</span> <span class="nv">the</span> <span class="nv">relevant</span>
@@ -720,11 +718,9 @@ ${<span class="nv">REMOVE_CDP_CONFIG</span>}   <span class="nv">no</span> <span 
 
     # <span class="nv">now</span> <span class="nv">we</span> <span class="nv">have</span> <span class="nv">a</span> <span class="nv">cdp</span> <span class="nv">neighbor</span>, <span class="nv">we</span> <span class="nv">will</span> <span class="nv">run</span> <span class="nv">the</span> <span class="nv">neighbor</span> <span class="nv">table</span> <span class="nv">through</span> <span class="nv">the</span> <span class="nv">TextFSM</span> <span class="nv">parser</span>
     ${<span class="nv">output</span>}<span class="o">=</span>  <span class="nv">run</span> <span class="nv">parsed</span> <span class="s2">&quot;</span><span class="s">show cdp neighbors</span><span class="s2">&quot;</span>
-    <span class="nv">log</span>  ${<span class="nv">output</span>}
     # <span class="nv">using</span> <span class="nv">the</span> <span class="nv">local</span> <span class="nv">interface</span>, <span class="nv">we</span> <span class="nv">can</span> <span class="nv">get</span> <span class="nv">the</span> <span class="nv">device</span> <span class="nv">id</span> <span class="ss">(</span><span class="nv">hostname</span><span class="ss">)</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">neighbor</span>
     ${<span class="nv">HOSTNAME</span>}<span class="o">=</span>  <span class="nv">get</span> <span class="nv">parsed</span> <span class="s2">&quot;</span><span class="s">device_id</span><span class="s2">&quot;</span> <span class="nv">where</span> <span class="s2">&quot;</span><span class="s">local_intf</span><span class="s2">&quot;</span> <span class="nv">is</span> <span class="s2">&quot;</span><span class="s">Gig 2</span><span class="s2">&quot;</span>
-    <span class="nv">log</span>  ${<span class="nv">HOSTNAME</span>}
-    <span class="nv">Should</span> <span class="nv">contain</span>  ${<span class="nv">HOSTNAME</span>}   <span class="nv">r2</span>
+    <span class="nv">Should</span> <span class="nv">Start</span> <span class="nv">With</span>    ${<span class="nv">HOSTNAME</span>}   <span class="nv">r2</span>
     [<span class="nv">Teardown</span>]   <span class="nv">configure</span> <span class="s2">&quot;</span><span class="s">${REMOVE_CDP_CONFIG}</span><span class="s2">&quot;</span> <span class="nv">on</span> <span class="nv">devices</span> <span class="s2">&quot;</span><span class="s">r1;r2</span><span class="s2">&quot;</span>
 </pre></div>
 </td></tr></table>
