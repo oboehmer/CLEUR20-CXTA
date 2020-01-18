@@ -29,12 +29,12 @@ Get the ospf neighbor ID from R1 using Genie keywords (pyats)
     ${nbr_state}=  Get Value From Json   ${result}   $..neighbors.*.state
     Should be Equal as Strings   ${nbr_state}[0]   full
 
-Check the OSPF hello interval on a specific interface
+Check OSPF hello interval
     # we now use a keyword specified in the keyword section of this robot file below
     # in the keyword the user can specify the device name and the interface, so the
     # very same check can be reused
     Check if OSPF hello interval on device "r1" interface "GigabitEthernet2" is "10"
-    # Check if OSPF hello interval on device "r2" interface "GigabitEthernet2" is "10"
+    Check if OSPF hello interval on device "r2" interface "GigabitEthernet2" is "10"
 
 *** Keywords ***
 Check if OSPF hello interval on device "${device}" interface "${interface}" is "${interval}"

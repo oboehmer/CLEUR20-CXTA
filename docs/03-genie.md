@@ -1,13 +1,13 @@
 # Parsing with pyATS Genie
 
-CXTA, a test automation library for Cisco's CX organization leverages the pyATS framework for much of its device keywords.  
+CXTA leverages Cisco's pyATS framework for most of its device-related keywords, a testing framework used by Cisco's core product development organization.   
 pyATS is available on [DevNet](https://developer.cisco.com/pyats/) and is free to use. The libraries available also include Robotframework keywords, some of which we've already used (like `connect to device` or `use testbed`), and in this exercise we want to demonstrate [Genie](https://developer.cisco.com/docs/pyats), which deserves its own chapter.
 
 Please change to the 03-genie directory and examine the 03-genie.robot test suite, which contains two test cases which we explain separately:
 
 ```
 cd ../03-genie
-more 03-genie.robot
+cat 03-genie.robot
 ```
 
 ## Parsing a Specific Command
@@ -53,7 +53,7 @@ Let's use this approach now to verify the hello interval present on the routers,
 Please examine the 2nd test case in 03-genie.robot:
 
 ```
-Check the OSPF hello interval on a specific interface
+Check OSPF hello interval
     # we now use a keyword specified in the keyword section of this robot file below
     # in the keyword the user can specify the device name and the interface, so the
     # very same check can be reused
