@@ -341,8 +341,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#parsing-using-genie" title="Parsing using Genie" class="md-nav__link">
-    Parsing using Genie
+  <a href="#next-steps" title="Next Steps" class="md-nav__link">
+    Next Steps
   </a>
   
 </li>
@@ -355,6 +355,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../03-genie/" title="03 pyATS Genie" class="md-nav__link">
+      03 pyATS Genie
+    </a>
   </li>
 
     
@@ -426,8 +438,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#parsing-using-genie" title="Parsing using Genie" class="md-nav__link">
-    Parsing using Genie
+  <a href="#next-steps" title="Next Steps" class="md-nav__link">
+    Next Steps
   </a>
   
 </li>
@@ -608,7 +620,7 @@ ${<span class="nv">nbr_id</span>}      <span class="mi">10</span>.<span class="m
 
 <h2 id="more-complex-parsing">More Complex Parsing</h2>
 <p>Parsing text using regular expression can be cumbersome, especially if the use case requires parsing multiple values from a single command output, potentially spread across different line.</p>
-<p>CXTA offers two approaches, which are shown in the next test suite (02-complex.robot): TextFSM, and pyATS Genie</p>
+<p>CXTA offers two approaches: TextFSM (shown below), and pyATS Genie (next chapter)</p>
 <h3 id="parsing-using-textfsm">Parsing using TextFSM</h3>
 <p><a href="https://github.com/google/textfsm/wiki/TextFSM">TextFSM</a> is a Python module that implements a template based state machine for parsing semi-formatted text. Originally developed to allow programmatic access to information given by the output of CLI driven devices, such as network routers and switches, it can however be used for any such textual output.  </p>
 <p>CXTA has close to 1000 TextFSM templates which are able to parse a large variety of command from Cisco and 3rd party network devices, and the test user can also supply his/her own.</p>
@@ -730,8 +742,8 @@ Removing the configuration in the Teardown is especially important. This ensures
 <p>Finally, we use a different <code>get parsed ...</code> keyword (#19) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).</p>
 </li>
 </ul>
-<h2 id="parsing-using-genie">Parsing using Genie</h2>
-<p><em>todo</em></p>
+<h2 id="next-steps">Next Steps</h2>
+<p>If you still have time, we would like to share a different, and even more powerful and versatile approach on how to parse Cisco and some other devices: <a href="../03-genie/">Parsing with pyATS GENIE</a></p>
                 
                   
                 
@@ -766,6 +778,20 @@ Removing the configuration in the Teardown is especially important. This ensures
             </div>
           </a>
         
+        
+          <a href="../03-genie/" title="03 pyATS Genie" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                03 pyATS Genie
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
