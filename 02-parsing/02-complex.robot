@@ -14,7 +14,7 @@ ${REMOVE_CDP_CONFIG}   no cdp run\ninterface GigabitEthernet2\nno cdp enable
 Check OSPF neighbour ID using TextFSM
     select device "r1"
     # runs a command and parses it through the TextFSM template provided
-    # cxta includes a large collection of templates (view the 'Command Map' page in the documentation)
+    # cxta includes a large collection of templates (view the 'TextFSM Map' page in the documentation)
     # though you are able to specify your own template, as we do in this example
     run parsed "show ip ospf neighbor" with template "${CURDIR}/show_ip_ospf_neighbor.textfsm"
     # get the data from the value of 'NEIGHBOR_ID' from the dictionary that was created in the keyword above
