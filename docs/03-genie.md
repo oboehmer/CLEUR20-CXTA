@@ -42,7 +42,13 @@ The data is structured according to Genie datamodels, which are common across de
 
 Lines 6 and 9 now extract specific values from this dictionary and compare it with their expected values.
 
-If you notice on line 6 and 9, you see a notation at the end of each line. This is called JSONPath. It is a notation that allows the user to parse a, potentially complex, JSON structure (Dictionary).
+If you notice on line 6 and 9, you see a notation at the end of each line. 
+
+`$..neighbors.*.neighbor_router_id`
+and
+`$..neighbors.*.state`
+
+This is called JSONPath. It is a notation that allows the user to parse a, potentially complex, JSON structure (Dictionary).
 
 In JSONPath, there are specific symbols called operators and functions that help to specify which key or keys you are interested in. This notation is similar to XPATH or CSS Selectors for html files. Here are some of the operators used in this example:
 
@@ -53,40 +59,18 @@ In JSONPath, there are specific symbols called operators and functions that help
 | .<name> | Dot notated child. This operator says that we are interested in a key with this name at this location. |
 | * | Wildcard, available anywhere a name or number is required. |
 
-For example, in the following JSON structure:
-
-```
-{
-    "store": {
-        "book": {
-            "author": "J. R. R. Tolkien",
-            "title": "The Lord of the Rings"
-            "price": 39.95
-        },
-        "bicycle": {
-            "color": "red",
-            "price": 19.95
-        },
-        "employees": [
-            {"name": "Oliver"},
-            {"name": "Ava"},
-            {"name": "Jacob"}
-        ]
-    },
-    "expensive": 10
-}
-```
-
-Here is a table of JSON paths to results for this example:
+For example, in the JSON structure in the picture above: Here is a table of JSON paths to results for this output:
 
 | JSONPath | Result |
 |----------|--------|
-|$.store.book.author | ["J. R. R. Tolkien"] |
-|$..author | ["J. R. R. Tolkien"] |
-|$..price | [39.95, 19.95] |
-|$..employees.*.name | ["Oliver", "Ava", "Jacob"]
+|$..interface | ["GigabitEthernet2"] |
+|$..statistics.total_retransmission | [1] |
+|$..neighbors.*.dr_ip_addr | ["172.16.0.2"] |
+|$..neighbors.*.neighbor_router_id | ["10.0.0.2"]
+|$..neighbors.*.state | ["full"]
 
-It should be noted that JSONPath always returns a list of results, even when there is only one result, as JSONPaths do not always need to return a single result.
+Note: JSONPath always returns a list of results, even when there is only one result, as JSONPaths do not always need to return a single result.
+Note: The wildcard character is used in the final 3 examples in the table to indicate that, if there were more than 1 neighbor, get all neighbors' property. If there were two neighbors, for example, the results for the final three options would have two values in them.
 
 To learn more about json path, click [here](https://github.com/json-path/JsonPath)
 
