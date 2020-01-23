@@ -123,7 +123,7 @@ check version on r1
     Should Contain   ${output}    Cisco IOS XE Software, Version 99999999
 ```
 
-re-run the test, and re-examine the log.html created to see how robot highlights the error(s).
+re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the log.html created to see how robot highlights the error(s).
 
 
 ## Test Suite Setup/Teardown
