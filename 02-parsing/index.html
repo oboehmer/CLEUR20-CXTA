@@ -464,7 +464,7 @@
                 
                 
                 <h1 id="command-output-parsing-exercises">Command Output Parsing Exercises</h1>
-<p>Despite the enhancements to deal with network devices in a programmatic way over APIs (i.e. REST, NETCONF, etc.), parsing command line output remains to be a major task when dealing with heterogeneous network environments.</p>
+<p>Despite the enhancements to deal with network devices in a programmatic way over APIs (i.e. REST, NETCONF, etc.), parsing command line output remains to be a major task when dealing with diverse network environments.</p>
 <p>CXTA provides a variety of keywords and approaches to deal with parsing, which we want to introduce in this exercise.</p>
 <p>We again leverage the device environment shown earlier, and demonstrate multiple approaches on how to parse text data.</p>
 <h2 id="simple-parsing">Simple Parsing</h2>
@@ -613,7 +613,7 @@ ${<span class="nv">nbr_id</span>}      <span class="mi">10</span>.<span class="m
 </td></tr></table>
 
 <h3 id="bonus-exercise-leveraging-parameterization">Bonus Exercise: Leveraging Parameterization</h3>
-<p>You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different environment: We can easily re-run the test on the other router (r2) and this check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the <code>-v VAR:VALUE</code> command line options. Please give it a go:</p>
+<p>You might have noticed that we have parameterized the router name and expected router ID in the above test cases using variables. This enables us to easily adapt the test to a different environment: We can easily re-run the test on the other router (r2) and thus check for a different neighbor IP address (10.0.0.1) by overwriting the defined variables values on the command line using the <code>-v VAR:VALUE</code> command line options. Please give it a go:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">#</span> <span class="n">robot</span> <span class="o">-</span><span class="n">v</span> <span class="n">device</span><span class="p">:</span><span class="n">r2</span> <span class="o">-</span><span class="n">v</span> <span class="n">nbr_id</span><span class="p">:</span><span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="mi">02</span><span class="o">-</span><span class="k">simple</span><span class="p">.</span><span class="n">robot</span>
 </pre></div>
 </td></tr></table>
@@ -728,14 +728,14 @@ ${<span class="nv">REMOVE_CDP_CONFIG</span>}   <span class="nv">no</span> <span 
 <p>A few things to note here:</p>
 <ul>
 <li>
-<p>You see that we put the configuration and the removal of CDP into test case <strong>Setup</strong> and <strong>Teardown</strong> functions (lines 8 and 22). You have already seen the <strong>Suite Setup</strong> which allows us to initialize the environment prior to the first test case executed, and the Test Setup function is equivalent within the test case context, i.e. we perform an initialization before the the first test keyword runs.<br />
+<p>You see that we put the configuration and the removal of CDP into test case <strong>Setup</strong> and <strong>Teardown</strong> functions (lines 8 and 20). You have already seen the <strong>Suite Setup</strong> which allows us to initialize the environment prior to the first test case executed, and the Test Setup function is equivalent within the test case context, i.e. we perform an initialization before the the first test keyword runs.<br />
 Removing the configuration in the Teardown is especially important. This ensures that the configuration is removed, no matter if any prior test step failed or not.</p>
 </li>
 <li>
 <p>We use the CXTA keyword <code>monitor command ...</code> to check the presence of a specific string. We could have also used a built-in Robot keyword <a href="http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Repeat%20Keyword">Repeat Keyword</a> to repeat the execution (left as a bonus exercise).</p>
 </li>
 <li>
-<p>Finally, we use a different <code>get parsed ...</code> keyword (#19) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).</p>
+<p>Finally, we use a different keyword, <code>get parsed ...</code> (#18) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).</p>
 </li>
 </ul>
 <h2 id="next-steps">Next Steps</h2>

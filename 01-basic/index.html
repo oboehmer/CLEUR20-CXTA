@@ -613,7 +613,7 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 </pre></div>
 </td></tr></table>
 
-<p>re-run the test, and re-examine the log.html created to see how robot highlights the error(s).</p>
+<p>re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the log.html created to see how robot highlights the error(s).</p>
 <h2 id="test-suite-setupteardown">Test Suite Setup/Teardown</h2>
 <p>By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the <code>-t</code> (or <code>--test</code>) command line argument.<br />
 Let's now run a test only checking r1's version:</p>
