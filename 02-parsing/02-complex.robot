@@ -27,7 +27,7 @@ Check OSPF neighbour ID using TextFSM
     ${NBR_STATE}=  get parsed "STATE"
     Should Contain    ${NBR_STATE}   FULL
 
-Enable CDP and check hostname of neighbor (r2)
+Enable CDP and check neighbor hostname using TextFSM
     [Setup]   configure "${CDP_CONFIG}" on devices "r1;r2"
     select device "r1"
     # It takes a bit for the CDP neighbor to show, so we repeat a keyword for a bit we see the relevant
@@ -37,11 +37,9 @@ Enable CDP and check hostname of neighbor (r2)
 
     # now we have a cdp neighbor, we will run the neighbor table through the TextFSM parser
     ${output}=  run parsed "show cdp neighbors"
-    log  ${output}
     # using the local interface, we can get the device id (hostname) of the neighbor
     ${HOSTNAME}=  get parsed "device_id" where "local_intf" is "Gig 2"
-    log  ${HOSTNAME}
-    Should contain  ${HOSTNAME}   r2
+    Should Start With    ${HOSTNAME}   r2
     [Teardown]   configure "${REMOVE_CDP_CONFIG}" on devices "r1;r2"
 
 *** Keywords ***
