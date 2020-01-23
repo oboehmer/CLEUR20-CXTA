@@ -439,7 +439,72 @@ You'll notice that the Genie library uses multiple commands on the device to col
 <p><img alt="" src="../03-dict1.png" /></p>
 <p>The data is structured according to Genie datamodels, which are common across device types and OS (IOS-XE, IOS-XR, etc.).</p>
 <p>Lines 6 and 9 now extract specific values from this dictionary and compare it with their expected values.</p>
-<p><strong> <em>TODO: Ava to elaborate on the filter constructs in #6 and #9</em> </strong></p>
+<p>If you notice on line 6 and 9, you see a notation at the end of each line. </p>
+<p><code>$..neighbors.*.neighbor_router_id</code>
+and
+<code>$..neighbors.*.state</code></p>
+<p>This is called JSONPath. It is a notation that allows the user to parse a, potentially complex, JSON structure (Dictionary).</p>
+<p>In JSONPath, there are specific symbols called operators and functions that help to specify which key or keys you are interested in. This notation is similar to XPATH or CSS Selectors for html files. Here are some of the operators used in this example:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$</td>
+<td>This specifies the root element of the JSON structure. It is used to indicate the start of a query</td>
+</tr>
+<tr>
+<td>..</td>
+<td>This performs a "deep scan". Which essentially says, "Look anywhere in the json structure for what comes next"</td>
+</tr>
+<tr>
+<td>.<name></td>
+<td>Dot notated child. This operator says that we are interested in a key with this name at this location.</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Wildcard, available anywhere a name or number is required.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, in the JSON structure in the picture above: Here is a table of JSON paths to results for this output:</p>
+<table>
+<thead>
+<tr>
+<th>JSONPath</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$..interface</td>
+<td>["GigabitEthernet2"]</td>
+</tr>
+<tr>
+<td>$..statistics.total_retransmission</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td>$..neighbors.*.dr_ip_addr</td>
+<td>["172.16.0.2"]</td>
+</tr>
+<tr>
+<td>$..neighbors.*.neighbor_router_id</td>
+<td>["10.0.0.2"]</td>
+</tr>
+<tr>
+<td>$..neighbors.*.state</td>
+<td>["full"]</td>
+</tr>
+</tbody>
+</table>
+<p>Note: JSONPath always returns a list of results, even when there is only one result, as JSONPaths do not always need to return a single result.
+Note: The wildcard character is used in the final 3 examples in the table to indicate that, if there were more than 1 neighbor, get all neighbors' property. If there were two neighbors, for example, the results for the final three options would have two values in them.</p>
+<p>To learn more about json path, click <a href="https://github.com/json-path/JsonPath">here</a></p>
 <h2 id="learning-a-feature">Learning a Feature</h2>
 <p>Genie also offers a very powerful mechanism to gather all sorts of information about a specific feature configured and running on a device.<br />
 Let's use this approach now to verify the hello interval present on the routers, checking each of the two routers individually.</p>
