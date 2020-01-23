@@ -42,8 +42,53 @@ The data is structured according to Genie datamodels, which are common across de
 
 Lines 6 and 9 now extract specific values from this dictionary and compare it with their expected values.
 
-** _TODO: Ava to elaborate on the filter constructs in #6 and #9_ **
+If you notice on line 6 and 9, you see a notation at the end of each line. This is called JSONPath. It is a notation that allows the user to parse a, potentially complex, JSON structure (Dictionary).
 
+In JSONPath, there are specific symbols called operators and functions that help to specify which key or keys you are interested in. This notation is similar to XPATH or CSS Selectors for html files. Here are some of the operators used in this example:
+
+| Operator | Function |
+|----------|----------|
+|    $     | This specifies the root element of the JSON structure. It is used to indicate the start of a query | 
+| .. | This performs a "deep scan". Which essentially says, "Look anywhere in the json structure for what comes next" |
+| .<name> | Dot notated child. This operator says that we are interested in a key with this name at this location. |
+| * | Wildcard, available anywhere a name or number is required. |
+
+For example, in the following JSON structure:
+
+```
+{
+    "store": {
+        "book": {
+            "author": "J. R. R. Tolkien",
+            "title": "The Lord of the Rings"
+            "price": 39.95
+        },
+        "bicycle": {
+            "color": "red",
+            "price": 19.95
+        },
+        "employees": [
+            {"name": "Oliver"},
+            {"name": "Ava"},
+            {"name": "Jacob"}
+        ]
+    },
+    "expensive": 10
+}
+```
+
+Here is a table of JSON paths to results for this example:
+
+| JSONPath | Result |
+|----------|--------|
+|$.store.book.author | ["J. R. R. Tolkien"] |
+|$..author | ["J. R. R. Tolkien"] |
+|$..price | [39.95, 19.95] |
+|$..employees.*.name | ["Oliver", "Ava", "Jacob"]
+
+It should be noted that JSONPath always returns a list of results, even when there is only one result, as JSONPaths do not always need to return a single result.
+
+To learn more about json path, click [here](https://github.com/json-path/JsonPath)
 
 ## Learning a Feature
 
