@@ -16,13 +16,24 @@ docker exec -it cxta_devnet bash
 You will end up in the _/home/devnet/cxta_ directory, and you can see all the files from the directory you started the environment from:
 
 ```
-root@14b56b5cc0ac:/home/devnet/cxta# ls
-01-basic    Makefile   Vagrantfile         docs        site              test-vms.robot
-02-parsing  README.md  docker-compose.yml  mkdocs.yml  start-routers.sh  testbed.yaml
-root@14b56b5cc0ac:/home/devnet/cxta#
+root@dafbe37b2f80:/home/devnet/cxta# ls -l
+total 32
+drwxr-xr-x  7 root root  224 Jan 24 09:40 01-basic
+drwxr-xr-x  5 root root  160 Jan 24 09:40 02-parsing
+drwxr-xr-x  3 root root   96 Jan 24 09:40 03-genie
+-rw-r--r--  1 root root  397 Nov 25 10:46 Makefile
+-rw-r--r--  1 root root  911 Nov 25 12:42 README.md
+-rw-r--r--  1 root root 1470 Nov 25 10:46 Vagrantfile
+-rw-r--r--  1 root root  694 Nov 25 12:40 docker-compose.yml
+drwxr-xr-x 15 root root  480 Jan 23 22:00 docs
+-rw-r--r--  1 root root  500 Jan 23 06:57 mkdocs.yml
+-rwxr-xr-x  1 root root 2887 Jan 14 10:33 start-routers.sh
+-rw-r--r--  1 root root  289 Nov 25 10:46 test-vms.robot
+-rw-r--r--  1 root root 1000 Jan 23 07:53 testbed.yaml
+root@dafbe37b2f80:/home/devnet/cxta#
 ```
 
-You notice a directory `01-basic`, which contains the first test script we want to examine and execute:
+You notice a directory `01-basic`, which contains the first test scripts we want to examine and execute:
 
 ## Your First Test Case
 
@@ -63,7 +74,7 @@ check version on r2
 
 This file is a robotframework test file, and you notice different sections:
 
-- the **Settings** section contains the libraries we want to load. For this lab, we are using the _CXTA_ library and a set of libraries which are defined in the resource file _cxta.robot_. This file is bundled with the cxta libraries on the container, you can examine it via `more /venv/lib/python3.6/site-packages/CXTA/robot/cxta.robot` if you're interested.
+- The **Settings** section contains the libraries we want to load. For this lab, we are using the _CXTA_ library and a set of libraries which are defined in the resource file _cxta.robot_. This file is bundled with the cxta libraries on the container, you can examine it via `more /venv/lib/python3.6/site-packages/CXTA/robot/cxta.robot` if you're interested.
 
 - The **Variables** section allows you define variables which you can use in other sections of the file. Here we only define the ${testbed} variable which contains the location of the testbed.yaml file which contains the access information to the devices we'll be interacting with.
 
@@ -129,7 +140,7 @@ re-run the test (alternatively, run 01-show1-fail.robot which already has this c
 ## Test Suite Setup/Teardown
 
 By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the `-t` (or `--test`) command line argument.  
-Let's now run a test only checking r1's version:
+Let's now run a test only checking r1's version (as before, execute this command on the container):
 
 ```
 # robot -t "check version on r1" 01-show1.robot
