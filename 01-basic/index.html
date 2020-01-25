@@ -464,17 +464,39 @@ The directory structure containing the scripts and tests has been mounted into t
 </td></tr></table>
 
 <p>You will end up in the <em>/home/devnet/cxta</em> directory, and you can see all the files from the directory you started the environment from:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span> <span class="n">ls</span>
-<span class="mo">01</span><span class="o">-</span><span class="n">basic</span>    <span class="n">Makefile</span>   <span class="n">Vagrantfile</span>         <span class="n">docs</span>        <span class="n">site</span>              <span class="n">test</span><span class="o">-</span><span class="n">vms</span><span class="p">.</span><span class="n">robot</span>
-<span class="mo">02</span><span class="o">-</span><span class="n">parsing</span>  <span class="n">README</span><span class="p">.</span><span class="n">md</span>  <span class="n">docker</span><span class="o">-</span><span class="n">compose</span><span class="p">.</span><span class="n">yml</span>  <span class="n">mkdocs</span><span class="p">.</span><span class="n">yml</span>  <span class="n">start</span><span class="o">-</span><span class="n">routers</span><span class="p">.</span><span class="n">sh</span>  <span class="n">testbed</span><span class="p">.</span><span class="n">yaml</span>
-<span class="n">root</span><span class="mi">@14</span><span class="nl">b56b5cc0ac</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">root</span><span class="nv">@dafbe37b2f80</span><span class="err">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span><span class="w"> </span><span class="n">ls</span><span class="w"> </span><span class="o">-</span><span class="n">l</span><span class="w"></span>
+<span class="n">total</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="w">  </span><span class="mi">7</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w">  </span><span class="mi">224</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="mi">09</span><span class="err">:</span><span class="mi">40</span><span class="w"> </span><span class="mi">01</span><span class="o">-</span><span class="n">basic</span><span class="w"></span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="w">  </span><span class="mi">5</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w">  </span><span class="mi">160</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="mi">09</span><span class="err">:</span><span class="mi">40</span><span class="w"> </span><span class="mi">02</span><span class="o">-</span><span class="n">parsing</span><span class="w"></span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="w">  </span><span class="mi">3</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w">   </span><span class="mi">96</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="mi">09</span><span class="err">:</span><span class="mi">40</span><span class="w"> </span><span class="mi">03</span><span class="o">-</span><span class="n">genie</span><span class="w"></span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root  397 Nov 25 10:46 Makefile</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root  911 Nov 25 12:42 README.md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root 1470 Nov 25 10:46 Vagrantfile</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root  694 Nov 25 12:40 docker-compose.yml</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w">  </span><span class="mi">480</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="mi">22</span><span class="err">:</span><span class="mi">00</span><span class="w"> </span><span class="n">docs</span><span class="w"></span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root  500 Jan 23 06:57 mkdocs.yml</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="mi">2887</span><span class="w"> </span><span class="n">Jan</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="mi">10</span><span class="err">:</span><span class="mi">33</span><span class="w"> </span><span class="k">start</span><span class="o">-</span><span class="n">routers</span><span class="p">.</span><span class="n">sh</span><span class="w"></span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root  289 Nov 25 10:46 test-vms.robot</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="c1">--r--  1 root root 1000 Jan 23 07:53 testbed.yaml</span>
+<span class="n">root</span><span class="nv">@dafbe37b2f80</span><span class="err">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">devnet</span><span class="o">/</span><span class="n">cxta</span><span class="err">#</span><span class="w"></span>
 </pre></div>
 </td></tr></table>
 
-<p>You notice a directory <code>01-basic</code>, which contains the first test script we want to examine and execute:</p>
+<p>You notice a directory <code>01-basic</code>, which contains the first test scripts we want to examine and execute:</p>
 <h2 id="your-first-test-case">Your First Test Case</h2>
 <p>Change to the 01-basic directory and examine the 01-show1.robot file contained therein.<br />
 It is a simple test suite which connects to the two routers we have spun up, collects a command which shows the version running on them, and compares them with an expected value:</p>
@@ -541,7 +563,7 @@ ${<span class="nv">testbed</span>}    ${<span class="nv">CURDIR</span>}<span cla
 <p>This file is a robotframework test file, and you notice different sections:</p>
 <ul>
 <li>
-<p>the <strong>Settings</strong> section contains the libraries we want to load. For this lab, we are using the <em>CXTA</em> library and a set of libraries which are defined in the resource file <em>cxta.robot</em>. This file is bundled with the cxta libraries on the container, you can examine it via <code>more /venv/lib/python3.6/site-packages/CXTA/robot/cxta.robot</code> if you're interested.</p>
+<p>The <strong>Settings</strong> section contains the libraries we want to load. For this lab, we are using the <em>CXTA</em> library and a set of libraries which are defined in the resource file <em>cxta.robot</em>. This file is bundled with the cxta libraries on the container, you can examine it via <code>more /venv/lib/python3.6/site-packages/CXTA/robot/cxta.robot</code> if you're interested.</p>
 </li>
 <li>
 <p>The <strong>Variables</strong> section allows you define variables which you can use in other sections of the file. Here we only define the ${testbed} variable which contains the location of the testbed.yaml file which contains the access information to the devices we'll be interacting with.</p>
@@ -616,7 +638,7 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 <p>re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the log.html created to see how robot highlights the error(s).</p>
 <h2 id="test-suite-setupteardown">Test Suite Setup/Teardown</h2>
 <p>By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the <code>-t</code> (or <code>--test</code>) command line argument.<br />
-Let's now run a test only checking r1's version:</p>
+Let's now run a test only checking r1's version (as before, execute this command on the container):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">#</span> <span class="n">robot</span> <span class="o">-</span><span class="n">t</span> <span class="ss">&quot;check version on r1&quot;</span> <span class="mi">01</span><span class="o">-</span><span class="n">show1</span><span class="p">.</span><span class="n">robot</span>
 </pre></div>
 </td></tr></table>
