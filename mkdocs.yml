@@ -5,6 +5,8 @@ nav:
 - {01 Basic Steps: ./01-basic.md}
 - {02 Parsing Text: ./02-parsing.md}
 - {03 pyATS Genie: ./03-genie.md}
+- {CXTA Documentation: ./docs.md}
+
 
 repo_name: GitHub
 repo_url: https://github.com/oboehmer/CLEUR20-CXTA
