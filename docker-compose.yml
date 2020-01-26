@@ -21,7 +21,6 @@ services:
     container_name: cxta_docs
     depends_on:
       - cxta
-    ports:
-      - 8081:80
     command:
-    - docs
+    - cd /tmp/ ; mkdocs serve -a 0.0.0.0:8081
+    network_mode: host
