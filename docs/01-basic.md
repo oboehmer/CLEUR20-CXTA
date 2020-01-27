@@ -81,6 +81,11 @@ This file is a robotframework test file, and you notice different sections:
 - The final **Test Cases** section contains the actual test cases we are executing when running this file.  
 Robot (by default) executes each of the test cases in the order specified. A test case succeeds if all the steps within a test case succeed.
 
+### Keywords used in the test
+
+Most of the keywords used in the test suite should be rather self-explanatary (which is - in our humble opinion - actually one of the biggest benefits of using Robotframework with properly defined keywords over test scripts written in python or other programming languages), but we want to quickly introduce the `use testbed ...` keyword and the concepts behind the _testbed_:
+
+Rather than defining IP addresses or credentials (username/password, etc.) in the script, CXTA leverages pyATS _testbed_ which allows to define all these information centrally in a YAML file, which is then loaded using the `use testbed "path/to/testbed.yaml"` keyword. Please take a look at the testbed.yaml in the top-level directory (i.e. `../testbed.yaml` from where you are now) for how we define the two devices we interact with in this lab.
 
 ## Run the Test Case
 
