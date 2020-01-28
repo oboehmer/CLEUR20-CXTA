@@ -293,6 +293,19 @@
     Your First Test Case
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keywords-used-in-the-test" title="Keywords used in the test" class="md-nav__link">
+    Keywords used in the test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -409,6 +422,19 @@
     Your First Test Case
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keywords-used-in-the-test" title="Keywords used in the test" class="md-nav__link">
+    Keywords used in the test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -469,7 +495,7 @@
 <p>This Chapter introduces you to some basic Robotframework fundamentals and generic device interaction keywords.</p>
 <h2 id="test-execution-environment">Test Execution Environment</h2>
 <p>The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the <a href="../00-setup/">previous chapter</a>.<br />
-The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.</p>
+The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in Documents/DEVWKS-1407/CLEUR20-CXTA), while the execution happens on the container.</p>
 <p>Open an interactive session on the container using the following command:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nv">docker</span> <span class="k">exec</span> <span class="o">-</span><span class="nv">it</span> <span class="nv">cxta_devnet</span> <span class="nv">bash</span>
 </pre></div>
@@ -585,6 +611,9 @@ ${<span class="nv">testbed</span>}    ${<span class="nv">CURDIR</span>}<span cla
 Robot (by default) executes each of the test cases in the order specified. A test case succeeds if all the steps within a test case succeed.</p>
 </li>
 </ul>
+<h3 id="keywords-used-in-the-test">Keywords used in the test</h3>
+<p>Most of the keywords used in the test suite should be rather self-explanatary (which is - in our humble opinion - actually one of the biggest benefits of using Robotframework with properly defined keywords over test scripts written in python or other programming languages), but we want to quickly introduce the <code>use testbed ...</code> keyword and the concepts behind the <em>testbed</em>:</p>
+<p>Rather than defining IP addresses or credentials (username/password, etc.) in the script, CXTA leverages pyATS <em>testbed</em> which allows to define all these information centrally in a YAML file, which is then loaded using the <code>use testbed "path/to/testbed.yaml"</code> keyword. Please take a look at the testbed.yaml in the top-level directory (i.e. <code>../testbed.yaml</code> from where you are now) for how we define the two devices we interact with in this lab.</p>
 <h2 id="run-the-test-case">Run the Test Case</h2>
 <p>Let's run it, executing it via <code>robot 01-show1.robot</code> on the container:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
