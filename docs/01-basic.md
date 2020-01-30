@@ -123,7 +123,7 @@ For more detailed reporting, as well as for troubleshooting in case things go wr
 - `report.html` contains a high-level report which shows pass/fail of each test case
 - `output.xml` contains essentially the same information as the former two files combined, however in structured XML format for automated post-processing
 
-Please open the log.html created in the directory Documents/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)
+Please open the log.html created in the directory Documents/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot), a sample log can also be found <a href="../logs/log-01-show1.html" target="_blank">here</a>.
 
 ![](01-log1.png)
 
@@ -139,7 +139,7 @@ check version on r1
     Should Contain   ${output}    Cisco IOS XE Software, Version 99999999
 ```
 
-re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the log.html created to see how robot highlights the error(s).
+re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the <a href="../logs/log-01-show1-fail.html" target="_blank">log.html</a> created to see how robot highlights the error(s).
 
 
 ## Test Suite Setup/Teardown
@@ -218,7 +218,7 @@ check version on r1                                                   | PASS |
 [...]
 ```
 
-The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the log.html in the browser: 
+The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the <a href="../logs/log-01-show2.html" target="_blank">log.html</a> in the browser: 
 
 ![](01-log2.png)
 

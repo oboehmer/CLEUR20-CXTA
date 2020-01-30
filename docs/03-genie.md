@@ -27,7 +27,7 @@ Get the ospf neighbor ID from R1 using Genie keywords (pyats)
     Should be Equal as Strings   ${nbr_state}[0]   full
 ```
 
-Please run the test (either run the whole file, or just run this one using `robot -t "Get the ospf*" 03-genie.robot`) and open the resulting log.html in your browser.
+Please run the test (either run the whole file, or just run this one using `robot -t "Get the ospf*" 03-genie.robot`) and open the resulting <a href="../logs/log-03-genie.html" target="_blank">log.html</a> in your browser.
 
 Please first expand on the _parse "show ip ospf neighbor detail" on device "r1"_ keyword.  
 You'll notice that the Genie library uses multiple commands on the device to collect the required information. The inner workings of how this is achieved is fully transparent, a big time saver when dealing with (network) devices:

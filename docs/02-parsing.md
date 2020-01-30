@@ -93,7 +93,7 @@ Load testbed and connect to devices
 ```
 
 
-Run this test (from within the container) and examine the log.html created.
+Run this test (from within the container) and examine the <a href="../logs/log-02-simple.html" target="_blank">log.html</a> created.
 
 ```
 root@14b56b5cc0ac:/home/devnet/cxta/02-parsing# robot 02-simple.robot
@@ -195,6 +195,7 @@ Removing the configuration in the Teardown is especially important. This ensures
 
 - Finally, we use a different keyword, `get parsed ...` (#18) which again extracts values from the parsed output, but this time using an additional condition (especially practical if there was more than one neighbour).
 
+You can find the log.html of this test execution <a href="../logs/log-02-complex.html" target="_blank">here</a>.
 
 ## Next Steps
 
