@@ -22,7 +22,7 @@ Check OSPF neighbour ID using regexp parsing
     # uses a cxta keyword to find all regex pattern matches on the output from the show command above
     # the pattern will match IPv4 address, e.g. 192.168.10. All pattern matches will be saved in a list.
     # regex backslashes need to be escaped as Robot interprets them as well
-    ${output}=  extract patterns "\\d+\.\\d+\.\\d+\.\\d+"
+    ${output}=  extract patterns "\\d+\\.\\d+\\.\\d+\\.\\d+"
 
     # uses a couple of keywords to log the result of the 'extract patterns' keyword - view these in the log.html
     log  ${output}
@@ -39,7 +39,7 @@ Check OSPF neighbour state using regexp parsing-1
 
     # uses a longer regex pattern to retrieve the ospf state, here using anchoring to fetch
     # only the state,  ([\\w]+)
-    ${output}=  extract pattern "\\d+\.\\d+\.\\d+\.\\d+\\s+\\d+\\s+([\\w]+)"
+    ${output}=  extract pattern "\\d+\\.\\d+\\.\\d+\\.\\d+\\s+\\d+\\s+([\\w]+)"
     Should be equal  ${output}   FULL
 
 Check OSPF neighbour state using regexp parsing-2
@@ -47,7 +47,7 @@ Check OSPF neighbour state using regexp parsing-2
     run "show ip ospf neighbor"
     # instead of extracting patterns, we can verify that the output matches a pattern
     # in this example we are checking that 'FULL/' is the state
-    output matches pattern "\\d+\.\\d+\.\\d+\.\\d+\\s+\\d+\\s+FULL\/.*"
+    output matches pattern "\\d+\\.\\d+\\.\\d+\\.\\d+\\s+\\d+\\s+FULL\/.*"
     output matches pattern ".*FULL\/.*"
 
 *** Keywords ***
