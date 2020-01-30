@@ -662,7 +662,7 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 <li><code>report.html</code> contains a high-level report which shows pass/fail of each test case</li>
 <li><code>output.xml</code> contains essentially the same information as the former two files combined, however in structured XML format for automated post-processing</li>
 </ul>
-<p>Please open the log.html created in the directory Documents/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)</p>
+<p>Please open the log.html created in the directory Documents/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot), a sample log can also be found <a href="../logs/log-01-show1.html" target="_blank">here</a>.</p>
 <p><img alt="" src="../01-log1.png" /></p>
 <h2 id="test-failures">Test Failures</h2>
 <p>We suggest you repeat the test, but change the version value the ${output} is checked against in one of the "check version on rX" test cases, i.e.</p>
@@ -676,7 +676,7 @@ Robot (by default) executes each of the test cases in the order specified. A tes
 </pre></div>
 </td></tr></table>
 
-<p>re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the log.html created to see how robot highlights the error(s).</p>
+<p>re-run the test (alternatively, run 01-show1-fail.robot which already has this change), and re-examine the <a href="../logs/log-01-show1-fail.html" target="_blank">log.html</a> created to see how robot highlights the error(s).</p>
 <h2 id="test-suite-setupteardown">Test Suite Setup/Teardown</h2>
 <p>By default, Robot executes all tests within a test suite (the robot file above in our example). If the number of tests grows large, there might be situations where you only want to run a subset of cases. Robotframework supports this by limiting the test case execution by tags (not used here) or by name. Let's try this using the <code>-t</code> (or <code>--test</code>) command line argument.<br />
 Let's now run a test only checking r1's version (as before, execute this command on the container):</p>
@@ -782,7 +782,7 @@ ${<span class="nv">testbed</span>}    ${<span class="nv">CURDIR</span>}<span cla
 </pre></div>
 </td></tr></table>
 
-<p>The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the log.html in the browser: </p>
+<p>The console output only shows the test case executed, it doesn't show the Setup step, you need to revert to the <a href="../logs/log-01-show2.html" target="_blank">log.html</a> in the browser: </p>
 <p><img alt="" src="../01-log2.png" /></p>
 <h2 id="whats-next">What's next?</h2>
 <p>Now that you have made yourself familiar with the environment and basic robot commands, let's move on to a <a href="../02-parsing/">more advanced use case</a> which shows you the power of some of the CXTA and pyATS keywords.</p>
