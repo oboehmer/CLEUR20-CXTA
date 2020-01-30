@@ -2,7 +2,7 @@ extra_css: [./extra.css]
 nav:
 - {Overview: ./index.md}
 - {00 Setup: ./00-setup.md}
-- {01 Basic Steps: ./01-basic.md}
+- {01 Basic Tests: ./01-basic.md}
 - {02 Parsing Text: ./02-parsing.md}
 - {03 pyATS Genie: ./03-genie.md}
 - {CXTA Documentation: ./docs.md}

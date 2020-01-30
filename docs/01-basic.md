@@ -5,7 +5,7 @@ This Chapter introduces you to some basic Robotframework fundamentals and generi
 ## Test Execution Environment
 
 The Robotframework and CXTA runtime environment is installed on a pre-built Container, which has been started in the [previous chapter](00-setup.md).  
-The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in XXXX/DEVWKS-1407/CLEUR2020-CXTA), while the execution happens on the container.
+The directory structure containing the scripts and tests has been mounted into the container (into /home/devnet/cxta), so you can create/edit and examine files on the Linux operating system on the host (in Documents/DEVWKS-1407/CLEUR20-CXTA), while the execution happens on the container.
 
 Open an interactive session on the container using the following command:
 
@@ -123,7 +123,7 @@ For more detailed reporting, as well as for troubleshooting in case things go wr
 - `report.html` contains a high-level report which shows pass/fail of each test case
 - `output.xml` contains essentially the same information as the former two files combined, however in structured XML format for automated post-processing
 
-Please open the log.html created in the directory XXXX/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)
+Please open the log.html created in the directory Documents/DEVWKS-1407/CLEUR2020-CXTA/01-basic folder on the laptop using a browser and click through the steps by expanding the test case steps (see below screenshot)
 
 ![](01-log1.png)
 
